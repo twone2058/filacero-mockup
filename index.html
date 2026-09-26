@@ -168,18 +168,41 @@
   .dot.atendido { background: var(--grey); }
   .dot.no_show { background: #D94436; }
 
-  .slots-manager, .historial-list { display: flex; flex-direction: column; gap: 8px; }
-  .slot-row { display: flex; align-items: center; gap: 14px; background: var(--bg); border-radius: 8px; padding: 10px 14px; }
-  .slot-row .slot-row-label { flex: 1; font-size: 0.9rem; }
   .slot-capacity-input {
     width: 56px; border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px;
     font-size: 0.85rem; text-align: center; background: var(--panel); color: var(--text); margin: 0;
   }
 
+  /* ---- Listas simples del panel cliente (recomendación de horario, mis turnos) ---- */
+  .slots-manager, .historial-list { display: flex; flex-direction: column; gap: 8px; }
+  .slot-row { display: flex; align-items: center; gap: 14px; background: var(--bg); border-radius: 8px; padding: 10px 14px; }
+  .slot-row .slot-row-label { flex: 1; font-size: 0.9rem; }
   .historial-list { max-height: 220px; overflow-y: auto; padding-right: 4px; }
   .historial-item { display: flex; gap: 10px; font-size: 0.85rem; color: var(--muted); padding: 6px 2px; border-bottom: 1px solid var(--line); }
   .historial-item:last-child { border-bottom: none; }
   .historial-item .time { color: var(--text); font-weight: 600; min-width: 48px; flex-shrink: 0; }
+
+  /* ---- Tablas de datos (franjas, turnos, historial) del panel admin ---- */
+  .table-scroll { overflow-x: auto; }
+  .data-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+  .data-table th, .data-table td { text-align: left; padding: 10px 12px; white-space: nowrap; }
+  .data-table tbody tr { background: var(--bg); }
+  .data-table tbody tr + tr { border-top: 4px solid var(--panel); }
+  .data-table td:first-child, .data-table th:first-child { border-radius: 8px 0 0 8px; }
+  .data-table td:last-child, .data-table th:last-child { border-radius: 0 8px 8px 0; }
+  .data-table th {
+    color: var(--muted); font-weight: 600; font-size: 0.75rem; text-transform: uppercase;
+    letter-spacing: 0.03em; padding: 0 12px 8px; white-space: nowrap;
+  }
+  .data-table th.sortable { cursor: pointer; user-select: none; }
+  .data-table th.sortable:hover { color: var(--text); }
+  .data-table th .sort-arrow { display: inline-block; margin-left: 4px; opacity: 0.5; font-size: 0.7em; }
+  .data-table th.sort-active .sort-arrow { opacity: 1; color: var(--teal); }
+  .data-table td.wrap { white-space: normal; }
+  .data-table td.col-name { min-width: 130px; }
+  .data-table .cell-muted { color: var(--muted); font-size: 0.85em; }
+  .historial-table-wrap { max-height: 260px; overflow-y: auto; }
+  .historial-table-wrap .data-table thead th { position: sticky; top: 0; background: var(--panel); z-index: 1; }
 
   .stats-panel { display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; gap: 18px; }
   .stat { display: flex; flex-direction: column; gap: 4px; }
@@ -221,11 +244,6 @@
 
   .list-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
   .list-header h2 { margin: 0; }
-  .tickets-list { display: flex; flex-direction: column; gap: 8px; }
-  .ticket-row { display: flex; align-items: center; gap: 14px; background: var(--bg); border-radius: 8px; padding: 12px 14px; flex-wrap: wrap; }
-  .ticket-row .num { font-family: var(--font-display); font-weight: 600; min-width: 48px; }
-  .ticket-row .name { flex: 1; font-size: 0.92rem; color: var(--text); min-width: 120px; }
-  .ticket-row .slot-label { color: var(--muted); font-size: 0.82rem; min-width: 90px; }
 
   .reprogramar-box { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
   .report-textarea { width: 100%; min-height: 140px; font-family: monospace; font-size: 0.8rem; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px; color: var(--text); resize: vertical; margin-top: 12px; }
@@ -472,7 +490,7 @@
         <div class="panel">
           <h2>Franjas horarias</h2>
           <p class="muted-text">Habilita, deshabilita o ajusta el cupo de cada franja.</p>
-          <div id="slots-manager" class="slots-manager"></div>
+          <div id="slots-manager" class="table-scroll"></div>
         </div>
 
         <div class="panel">
@@ -480,7 +498,7 @@
             <h2>Turnos</h2>
             <button id="btn-simular" class="btn-ghost small" type="button">Simular llegada</button>
           </div>
-          <div id="tickets-list" class="tickets-list"></div>
+          <div id="tickets-list" class="table-scroll"></div>
         </div>
 
         <div class="panel">
@@ -488,7 +506,7 @@
             <h2>Historial de actividad</h2>
             <button id="btn-logout-negocio" class="btn-ghost small" type="button">Cerrar sesión</button>
           </div>
-          <div id="historial-list" class="historial-list"></div>
+          <div id="historial-list" class="historial-table-wrap table-scroll"></div>
         </div>
       </div>
     </section>
@@ -524,6 +542,33 @@
   function nowTimeLabel() { var d = new Date(); return pad(d.getHours()) + ':' + pad(d.getMinutes()); }
   function formatSecs(s) { var m = Math.floor(s / 60); var ss = s % 60; return (m > 0 ? (m + 'm ') : '') + ss + 's'; }
   function escapeHtml(s) { var div = document.createElement('div'); div.textContent = s; return div.innerHTML; }
+  function sortHeaderHtml(label, col, sortState) {
+    var active = sortState.col === col;
+    var arrow = active ? (sortState.dir === 1 ? '▲' : '▼') : '↕';
+    return '<th class="sortable' + (active ? ' sort-active' : '') + '" data-sort-col="' + col + '">' +
+      label + '<span class="sort-arrow">' + arrow + '</span></th>';
+  }
+  function applySort(rows, sortState, getters) {
+    if (!sortState.col || !getters[sortState.col]) return rows;
+    var getter = getters[sortState.col];
+    var withKeys = rows.map(function (r) { return { r: r, k: getter(r) }; });
+    withKeys.sort(function (a, b) {
+      if (a.k < b.k) return -1 * sortState.dir;
+      if (a.k > b.k) return 1 * sortState.dir;
+      return 0;
+    });
+    return withKeys.map(function (w) { return w.r; });
+  }
+  function bindSortHeaders(el, sortState, onChange) {
+    el.querySelectorAll('th.sortable').forEach(function (th) {
+      th.addEventListener('click', function () {
+        var col = th.getAttribute('data-sort-col');
+        if (sortState.col === col) { sortState.dir = -sortState.dir; }
+        else { sortState.col = col; sortState.dir = 1; }
+        onChange();
+      });
+    });
+  }
   function sedeNombre(id) { var f = SEDES_CONFIG.find(function (s) { return s.id === id; }); return f ? f.nombre : id; }
   function labelForEstado(status) {
     if (status === 'esperando') return 'Esperando';
@@ -583,7 +628,12 @@
     negocioAuth: false,
     negocioSedeActual: SEDES_CONFIG[0].id,
     misTurnosHistorial: [],
-    clienteAuth: { registrado: false, verificado: false, nombre: '', celular: '' }
+    clienteAuth: { registrado: false, verificado: false, nombre: '', celular: '' },
+    sort: {
+      tickets: { col: 'num', dir: 1 },
+      slots: { col: null, dir: 1 },
+      historial: { col: null, dir: 1 }
+    }
   };
 
   // ============================================================
@@ -1175,15 +1225,34 @@
   function renderSlotsManager() {
     var sede = state.sedeData[state.negocioSedeActual];
     var el = document.getElementById('slots-manager');
-    el.innerHTML = '';
-    sede.slots.forEach(function (slot, i) {
-      var row = document.createElement('div');
-      row.className = 'slot-row';
-      row.innerHTML =
-        '<span class="slot-row-label">' + slot.label + '</span>' +
-        '<input type="number" min="1" max="20" class="slot-capacity-input" value="' + slot.capacity + '">' +
-        '<span class="badge ' + (slot.enabled ? 'activa' : 'inactiva') + '">' + (slot.enabled ? 'Activa' : 'Inactiva') + '</span>';
-      var capInput = row.querySelector('.slot-capacity-input');
+    var sortState = state.sort.slots;
+    var rows = sede.slots.map(function (slot, i) { return { slot: slot, index: i }; });
+    rows = applySort(rows, sortState, {
+      franja: function (r) { return r.index; },
+      cupo: function (r) { return r.slot.capacity; },
+      estado: function (r) { return r.slot.enabled ? 0 : 1; }
+    });
+    var html = '<table class="data-table"><thead><tr>' +
+      sortHeaderHtml('Franja', 'franja', sortState) +
+      sortHeaderHtml('Cupo', 'cupo', sortState) +
+      sortHeaderHtml('Estado', 'estado', sortState) +
+      '<th>Acción</th>' +
+      '</tr></thead><tbody>';
+    rows.forEach(function (r) {
+      html += '<tr data-slot-index="' + r.index + '">' +
+        '<td>' + r.slot.label + '</td>' +
+        '<td><input type="number" min="1" max="20" class="slot-capacity-input" value="' + r.slot.capacity + '"></td>' +
+        '<td><span class="badge ' + (r.slot.enabled ? 'activa' : 'inactiva') + '">' + (r.slot.enabled ? 'Activa' : 'Inactiva') + '</span></td>' +
+        '<td><button class="btn-ghost small" type="button" data-action="toggle-slot">' + (r.slot.enabled ? 'Deshabilitar' : 'Habilitar') + '</button></td>' +
+        '</tr>';
+    });
+    html += '</tbody></table>';
+    el.innerHTML = html;
+    bindSortHeaders(el, sortState, renderAll);
+    el.querySelectorAll('tr[data-slot-index]').forEach(function (tr) {
+      var i = parseInt(tr.getAttribute('data-slot-index'), 10);
+      var slot = sede.slots[i];
+      var capInput = tr.querySelector('.slot-capacity-input');
       capInput.addEventListener('change', function () {
         var val = parseInt(capInput.value, 10);
         if (isNaN(val) || val < 1) val = 1;
@@ -1191,61 +1260,79 @@
         logEvent(sede, 'Cupo de franja ' + slot.label + ' ajustado a ' + val + '.');
         renderAll();
       });
-      var btn = document.createElement('button');
-      btn.className = 'btn-ghost small';
-      btn.type = 'button';
-      btn.textContent = slot.enabled ? 'Deshabilitar' : 'Habilitar';
-      btn.addEventListener('click', function () {
+      tr.querySelector('[data-action="toggle-slot"]').addEventListener('click', function () {
         slot.enabled = !slot.enabled;
         logEvent(sede, 'Franja ' + slot.label + (slot.enabled ? ' habilitada.' : ' deshabilitada.'));
         renderAll();
       });
-      row.appendChild(btn);
-      el.appendChild(row);
     });
   }
 
   function renderTicketsList() {
     var sede = state.sedeData[state.negocioSedeActual];
     var list = document.getElementById('tickets-list');
-    list.innerHTML = '';
-    var ordered = sede.tickets.slice().sort(function (a, b) {
-      if (a.slotIndex !== b.slotIndex) return a.slotIndex - b.slotIndex;
-      return a.id - b.id;
-    });
-    if (ordered.length === 0) {
+    if (sede.tickets.length === 0) {
       list.innerHTML = '<div class="empty-state">No hay turnos registrados todavía.</div>';
       return;
     }
-    ordered.forEach(function (t) {
-      var row = document.createElement('div');
-      row.className = 'ticket-row';
-      var agente = t.agenteId ? sede.agentes.find(function (a) { return a.id === t.agenteId; }) : null;
-      row.innerHTML =
-        '<span class="num">#' + t.number + '</span>' +
-        '<span class="name">' + escapeHtml(t.name) + (t.id === state.myTicketId ? ' (tú)' : '') + (t.prioridad ? ' ⭐' : '') + '</span>' +
-        '<span class="slot-label">' + sede.slots[t.slotIndex].label + '</span>' +
-        (t.checkIn ? '<span class="badge activa">En sitio</span>' : '') +
-        '<span class="badge ' + t.status + '">' + labelForEstado(t.status) + '</span>' +
-        (agente ? '<span class="muted-text" style="margin:0;font-size:0.78rem;">' + escapeHtml(agente.nombre) + '</span>' : '');
-      list.appendChild(row);
+    var sortState = state.sort.tickets;
+    var ordered = applySort(sede.tickets.slice(), sortState, {
+      num: function (t) { return t.number; },
+      nombre: function (t) { return (t.name || '').toLowerCase(); },
+      franja: function (t) { return t.slotIndex; },
+      estado: function (t) { return labelForEstado(t.status); }
     });
+    if (!sortState.col) {
+      ordered.sort(function (a, b) {
+        if (a.slotIndex !== b.slotIndex) return a.slotIndex - b.slotIndex;
+        return a.id - b.id;
+      });
+    }
+    var html = '<table class="data-table"><thead><tr>' +
+      sortHeaderHtml('#', 'num', sortState) +
+      sortHeaderHtml('Nombre', 'nombre', sortState) +
+      sortHeaderHtml('Franja', 'franja', sortState) +
+      '<th>Check-in</th>' +
+      sortHeaderHtml('Estado', 'estado', sortState) +
+      '<th>Agente</th>' +
+      '</tr></thead><tbody>';
+    ordered.forEach(function (t) {
+      var agente = t.agenteId ? sede.agentes.find(function (a) { return a.id === t.agenteId; }) : null;
+      html += '<tr>' +
+        '<td>#' + t.number + '</td>' +
+        '<td class="col-name">' + escapeHtml(t.name) + (t.id === state.myTicketId ? ' (tú)' : '') + (t.prioridad ? ' ⭐' : '') + '</td>' +
+        '<td>' + sede.slots[t.slotIndex].label + '</td>' +
+        '<td>' + (t.checkIn ? '<span class="badge activa">En sitio</span>' : '<span class="cell-muted">—</span>') + '</td>' +
+        '<td><span class="badge ' + t.status + '">' + labelForEstado(t.status) + '</span></td>' +
+        '<td class="cell-muted">' + (agente ? escapeHtml(agente.nombre) : '—') + '</td>' +
+        '</tr>';
+    });
+    html += '</tbody></table>';
+    list.innerHTML = html;
+    bindSortHeaders(list, sortState, renderAll);
   }
 
   function renderHistorial() {
     var sede = state.sedeData[state.negocioSedeActual];
     var el = document.getElementById('historial-list');
-    el.innerHTML = '';
     if (sede.history.length === 0) {
       el.innerHTML = '<div class="empty-state">Sin actividad todavía.</div>';
       return;
     }
-    sede.history.forEach(function (entry) {
-      var row = document.createElement('div');
-      row.className = 'historial-item';
-      row.innerHTML = '<span class="time">' + entry.time + '</span><span>' + escapeHtml(entry.text) + '</span>';
-      el.appendChild(row);
+    var sortState = state.sort.historial;
+    var rows = applySort(sede.history.slice(), sortState, {
+      hora: function (h) { return h.time; }
     });
+    var html = '<table class="data-table"><thead><tr>' +
+      sortHeaderHtml('Hora', 'hora', sortState) +
+      '<th>Evento</th>' +
+      '</tr></thead><tbody>';
+    rows.forEach(function (entry) {
+      html += '<tr><td>' + entry.time + '</td><td class="wrap">' + escapeHtml(entry.text) + '</td></tr>';
+    });
+    html += '</tbody></table>';
+    el.innerHTML = html;
+    bindSortHeaders(el, sortState, renderAll);
   }
 
   function renderAll() {
