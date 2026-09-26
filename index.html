@@ -25,9 +25,6 @@
     --font-display: 'Space Grotesk', sans-serif;
     --font-body: 'Inter', sans-serif;
   }
-  /* This app keeps one deliberate light theme regardless of system
-     preference, so the dark-mode and data-theme blocks intentionally
-     repeat the same tokens. */
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) { color-scheme: light; }
   }
@@ -46,8 +43,7 @@
     -webkit-font-smoothing: antialiased;
   }
   #app { min-height: 100%; display: flex; flex-direction: column; }
-
-  a, button, input { font-family: inherit; }
+  a, button, input, select, textarea { font-family: inherit; }
 
   .topbar {
     display: flex;
@@ -63,116 +59,58 @@
   }
   .brand { display: flex; align-items: center; gap: 10px; }
   .brand-logo { flex-shrink: 0; display: block; }
-  .brand-name {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.15rem;
-    letter-spacing: 0.01em;
-  }
+  .brand-name { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; letter-spacing: 0.01em; }
 
-  .view-switch {
-    display: flex;
-    background: var(--panel);
-    border-radius: 999px;
-    padding: 4px;
-    gap: 2px;
-  }
+  .view-switch { display: flex; background: var(--panel); border-radius: 999px; padding: 4px; gap: 2px; }
   .switch-btn {
-    border: none;
-    background: transparent;
-    color: var(--muted);
-    padding: 8px 18px;
-    border-radius: 999px;
-    font-size: 0.92rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease;
+    border: none; background: transparent; color: var(--muted);
+    padding: 8px 18px; border-radius: 999px; font-size: 0.92rem; font-weight: 500;
+    cursor: pointer; transition: background 0.2s ease, color 0.2s ease;
   }
   .switch-btn.active { background: var(--panel-2); color: var(--text); }
 
-  main {
-    flex: 1;
-    padding: clamp(20px, 4vw, 40px);
-    max-width: 920px;
-    width: 100%;
-    margin: 0 auto;
-  }
-
+  main { flex: 1; padding: clamp(20px, 4vw, 40px); max-width: 920px; width: 100%; margin: 0 auto; }
   .view { display: none; flex-direction: column; gap: 20px; }
   .view.active { display: flex; }
 
   .panel {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: clamp(18px, 3vw, 28px);
-    box-shadow: 0 1px 2px rgba(32,42,50,0.04);
+    background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: clamp(18px, 3vw, 28px); box-shadow: 0 1px 2px rgba(32,42,50,0.04);
   }
 
-  h1 {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: clamp(1.4rem, 3vw, 1.8rem);
-    margin: 0 0 10px;
-  }
-  h2 {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 1.05rem;
-    margin: 0 0 6px;
-  }
+  h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.4rem, 3vw, 1.8rem); margin: 0 0 10px; }
+  h2 { font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; margin: 0 0 6px; }
   .lead { color: var(--muted); margin: 0 0 22px; line-height: 1.55; max-width: 46ch; }
   .muted-text { color: var(--muted); margin: 0 0 18px; font-size: 0.92rem; }
 
   label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 20px; }
   input[type="text"], input[type="password"], select {
-    display: block;
-    width: 100%;
-    margin-top: 8px;
-    background: var(--bg);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 12px 14px;
-    color: var(--text);
-    font-size: 0.95rem;
-    appearance: none;
-    -webkit-appearance: none;
+    display: block; width: 100%; margin-top: 8px; background: var(--bg);
+    border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px;
+    color: var(--text); font-size: 0.95rem; appearance: none; -webkit-appearance: none;
   }
   select {
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='%2364748B' d='M5.5 7.5l4.5 4.5 4.5-4.5'/%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 36px;
+    background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px;
   }
   select option:disabled { color: var(--grey); }
   input[type="text"]:focus, input[type="password"]:focus, select:focus { outline: 2px solid var(--teal); outline-offset: 1px; }
+  .inline-select { width: auto; margin-top: 0; font-size: 0.85rem; }
+
+  .checkbox-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 20px; font-size: 0.85rem; color: var(--muted); cursor: pointer; }
+  .checkbox-row input { margin-top: 3px; flex-shrink: 0; }
+  .checkbox-row span { line-height: 1.4; }
 
   .login-error {
-    background: rgba(219,68,55,0.10);
-    border: 1px solid #D94436;
-    color: #B5392D;
-    padding: 11px 14px;
-    border-radius: 8px;
-    font-size: 0.88rem;
-    margin-bottom: 16px;
+    background: rgba(219,68,55,0.10); border: 1px solid #D94436; color: #B5392D;
+    padding: 11px 14px; border-radius: 8px; font-size: 0.88rem; margin-bottom: 16px;
   }
 
-  .negocio-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 4px;
-  }
+  .negocio-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 4px; }
 
   .btn-primary {
-    background: var(--amber);
-    color: #23180A;
-    border: none;
-    border-radius: 8px;
-    padding: 13px 22px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    cursor: pointer;
+    background: var(--amber); color: #23180A; border: none; border-radius: 8px;
+    padding: 13px 22px; font-weight: 600; font-size: 0.95rem; cursor: pointer;
     transition: filter 0.15s ease, transform 0.1s ease;
   }
   .btn-primary:hover { filter: brightness(1.08); }
@@ -180,199 +118,125 @@
   .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; filter: none; transform: none; }
 
   .btn-ghost {
-    background: transparent;
-    border: 1px solid var(--line);
-    color: var(--muted);
-    border-radius: 8px;
-    padding: 10px 16px;
-    font-size: 0.88rem;
-    cursor: pointer;
+    background: transparent; border: 1px solid var(--line); color: var(--muted);
+    border-radius: 8px; padding: 10px 16px; font-size: 0.88rem; cursor: pointer;
     transition: border-color 0.15s ease, color 0.15s ease;
   }
   .btn-ghost:hover { border-color: var(--teal); color: var(--text); }
   .btn-ghost.small { padding: 7px 12px; font-size: 0.82rem; }
+  .btn-ghost:disabled { opacity: 0.45; cursor: not-allowed; }
   :focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
 
   .hidden { display: none !important; }
 
-  /* Ticket board */
   .ticket-board {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 26px 16px 22px;
-    border-bottom: 1px solid var(--line);
-    margin-bottom: 20px;
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    padding: 26px 16px 22px; border-bottom: 1px solid var(--line); margin-bottom: 20px;
   }
   .ticket-label { color: var(--muted); font-size: 0.85rem; margin-bottom: 6px; }
   .ticket-number {
-    font-family: var(--font-display);
-    font-variant-numeric: tabular-nums;
-    font-weight: 700;
-    font-size: clamp(3rem, 12vw, 4.2rem);
-    letter-spacing: 0.02em;
-    color: var(--text);
+    font-family: var(--font-display); font-variant-numeric: tabular-nums; font-weight: 700;
+    font-size: clamp(3rem, 12vw, 4.2rem); letter-spacing: 0.02em; color: var(--text);
     animation: flip-in 0.5s ease;
   }
-  @keyframes flip-in {
-    from { opacity: 0; transform: translateY(10px) scale(0.96); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-  }
+  @keyframes flip-in { from { opacity: 0; transform: translateY(10px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
   .ticket-slot { color: var(--teal); font-weight: 500; margin-top: 4px; }
 
   .ticket-status { display: flex; gap: 14px; margin-bottom: 18px; }
-  .status-row {
-    flex: 1;
-    background: var(--bg);
-    border-radius: 8px;
-    padding: 14px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
+  .status-row { flex: 1; background: var(--bg); border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
   .status-row span { color: var(--muted); font-size: 0.82rem; }
   .status-row strong { font-family: var(--font-display); font-size: 1.3rem; }
 
   .banner {
-    background: var(--amber-soft);
-    border: 1px solid var(--amber);
-    color: var(--amber);
-    padding: 13px 16px;
-    border-radius: 8px;
-    font-weight: 500;
-    font-size: 0.92rem;
-    margin-bottom: 18px;
-    animation: pulse 1.6s ease-in-out infinite;
+    background: var(--amber-soft); border: 1px solid var(--amber); color: var(--amber);
+    padding: 13px 16px; border-radius: 8px; font-weight: 500; font-size: 0.92rem;
+    margin-bottom: 18px; animation: pulse 1.6s ease-in-out infinite;
   }
-  @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(242,169,59,0.25); }
-    50% { box-shadow: 0 0 0 6px rgba(242,169,59,0); }
-  }
+  @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(242,169,59,0.25); } 50% { box-shadow: 0 0 0 6px rgba(242,169,59,0); } }
   .banner.done { background: var(--teal-soft); border-color: var(--teal); color: var(--teal); animation: none; }
 
-  /* Timeline / distribución */
-  .timeline {
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    padding-bottom: 6px;
-  }
-  .slot {
-    flex: 0 0 auto;
-    min-width: 68px;
-    background: var(--bg);
-    border-radius: 8px;
-    padding: 10px 8px;
-    text-align: center;
-  }
+  .notice { background: var(--grey-soft); border: 1px solid var(--grey); color: var(--text); padding: 13px 16px; border-radius: 8px; font-weight: 500; font-size: 0.92rem; }
+  .notice.warning { background: rgba(219,68,55,0.08); border-color: #D94436; color: #B5392D; }
+
+  .timeline { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px; }
+  .slot { flex: 0 0 auto; min-width: 68px; background: var(--bg); border-radius: 8px; padding: 10px 8px; text-align: center; }
   .slot-time { font-size: 0.72rem; color: var(--muted); margin-bottom: 8px; }
-  .slot-dots {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 3px;
-    justify-content: center;
-    min-height: 14px;
-  }
+  .slot-dots { display: flex; flex-wrap: wrap; gap: 3px; justify-content: center; min-height: 14px; }
   .dot { width: 7px; height: 7px; border-radius: 2px; }
   .dot.esperando { background: var(--teal); }
   .dot.llamado { background: var(--amber); }
   .dot.atendido { background: var(--grey); }
+  .dot.no_show { background: #D94436; }
 
-  /* Negocio */
-  .stats-panel {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr) auto;
-    align-items: center;
-    gap: 18px;
+  .slots-manager, .historial-list { display: flex; flex-direction: column; gap: 8px; }
+  .slot-row { display: flex; align-items: center; gap: 14px; background: var(--bg); border-radius: 8px; padding: 10px 14px; }
+  .slot-row .slot-row-label { flex: 1; font-size: 0.9rem; }
+  .slot-capacity-input {
+    width: 56px; border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px;
+    font-size: 0.85rem; text-align: center; background: var(--panel); color: var(--text); margin: 0;
   }
+
+  .historial-list { max-height: 220px; overflow-y: auto; padding-right: 4px; }
+  .historial-item { display: flex; gap: 10px; font-size: 0.85rem; color: var(--muted); padding: 6px 2px; border-bottom: 1px solid var(--line); }
+  .historial-item:last-child { border-bottom: none; }
+  .historial-item .time { color: var(--text); font-weight: 600; min-width: 48px; flex-shrink: 0; }
+
+  .stats-panel { display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; gap: 18px; }
   .stat { display: flex; flex-direction: column; gap: 4px; }
-  .stat-value { font-family: var(--font-display); font-size: 1.9rem; font-weight: 600; }
-  .stat-label { color: var(--muted); font-size: 0.8rem; }
+  .stat-value { font-family: var(--font-display); font-size: 1.7rem; font-weight: 600; }
+  .stat-label { color: var(--muted); font-size: 0.78rem; }
+
+  .agentes-panel { display: flex; flex-direction: column; gap: 12px; }
+  .agente-card { background: var(--bg); border-radius: 8px; padding: 14px 16px; }
+  .agente-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .agente-name { font-weight: 600; font-family: var(--font-display); }
+  .agente-ticket-info { font-size: 0.88rem; color: var(--text); margin-bottom: 4px; }
+  .agente-empty { color: var(--muted); font-size: 0.85rem; margin-bottom: 8px; }
+  .elapsed-timer { font-size: 0.78rem; color: var(--muted); }
+  .elapsed-timer.overdue { color: #B5392D; font-weight: 600; }
+  .agente-actions { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+
+  .traffic-bar-row { display: flex; align-items: center; gap: 10px; padding: 4px 0; }
+  .traffic-bar-label { width: 72px; flex-shrink: 0; font-size: 0.78rem; color: var(--muted); }
+  .traffic-bar-track { flex: 1; background: var(--grey-soft); border-radius: 999px; height: 10px; overflow: hidden; }
+  .traffic-bar-fill { height: 100%; border-radius: 999px; }
+  .traffic-bar-fill.poco { background: var(--teal); }
+  .traffic-bar-fill.medio { background: var(--amber); }
+  .traffic-bar-fill.lleno { background: #D94436; }
+  .traffic-bar-fill.no-disponible { background: var(--grey); }
+  .traffic-bar-count { width: 42px; text-align: right; font-size: 0.78rem; color: var(--muted); flex-shrink: 0; }
+
+  .badge { font-size: 0.75rem; padding: 4px 10px; border-radius: 999px; font-weight: 500; white-space: nowrap; }
+  .badge.esperando { background: var(--teal-soft); color: var(--teal); }
+  .badge.llamado { background: var(--amber-soft); color: var(--amber); }
+  .badge.atendido { background: var(--grey-soft); color: var(--muted); }
+  .badge.no_show { background: rgba(217,68,55,0.12); color: #B5392D; }
+  .badge.activa { background: var(--teal-soft); color: var(--teal); }
+  .badge.inactiva { background: var(--grey-soft); color: var(--muted); }
+  .badge.poco { background: var(--teal-soft); color: var(--teal); }
+  .badge.medio { background: var(--amber-soft); color: var(--amber); }
+  .badge.lleno { background: rgba(217,68,55,0.12); color: #B5392D; }
+  .badge.no-disponible { background: var(--grey-soft); color: var(--muted); }
+  .empty-state { color: var(--muted); font-size: 0.9rem; padding: 20px 4px; }
 
   .list-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
   .list-header h2 { margin: 0; }
   .tickets-list { display: flex; flex-direction: column; gap: 8px; }
-  .ticket-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    background: var(--bg);
-    border-radius: 8px;
-    padding: 12px 14px;
-  }
+  .ticket-row { display: flex; align-items: center; gap: 14px; background: var(--bg); border-radius: 8px; padding: 12px 14px; flex-wrap: wrap; }
   .ticket-row .num { font-family: var(--font-display); font-weight: 600; min-width: 48px; }
-  .ticket-row .name { flex: 1; font-size: 0.92rem; color: var(--text); }
+  .ticket-row .name { flex: 1; font-size: 0.92rem; color: var(--text); min-width: 120px; }
   .ticket-row .slot-label { color: var(--muted); font-size: 0.82rem; min-width: 90px; }
-  .badge {
-    font-size: 0.75rem;
-    padding: 4px 10px;
-    border-radius: 999px;
-    font-weight: 500;
-    white-space: nowrap;
-  }
-  .badge.esperando { background: var(--teal-soft); color: var(--teal); }
-  .badge.llamado { background: var(--amber-soft); color: var(--amber); }
-  .badge.atendido { background: var(--grey-soft); color: var(--muted); }
-  .badge.activa { background: var(--teal-soft); color: var(--teal); }
-  .badge.inactiva { background: var(--grey-soft); color: var(--muted); }
-  .empty-state { color: var(--muted); font-size: 0.9rem; padding: 20px 4px; }
 
-  .notice {
-    background: var(--grey-soft);
-    border: 1px solid var(--grey);
-    color: var(--text);
-    padding: 13px 16px;
-    border-radius: 8px;
-    font-weight: 500;
-    font-size: 0.92rem;
-  }
+  .reprogramar-box { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .report-textarea { width: 100%; min-height: 140px; font-family: monospace; font-size: 0.8rem; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px; color: var(--text); resize: vertical; margin-top: 12px; }
 
-  .slots-manager, .historial-list { display: flex; flex-direction: column; gap: 8px; }
-  .slot-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    background: var(--bg);
-    border-radius: 8px;
-    padding: 10px 14px;
-  }
-  .slot-row .slot-row-label { flex: 1; font-size: 0.9rem; }
-
-  .historial-list { max-height: 220px; overflow-y: auto; padding-right: 4px; }
-  .historial-item {
-    display: flex;
-    gap: 10px;
-    font-size: 0.85rem;
-    color: var(--muted);
-    padding: 6px 2px;
-    border-bottom: 1px solid var(--line);
-  }
-  .historial-item:last-child { border-bottom: none; }
-  .historial-item .time { color: var(--text); font-weight: 600; min-width: 48px; flex-shrink: 0; }
-
-  footer {
-    text-align: center;
-    padding: 18px;
-    color: var(--muted);
-    font-size: 0.8rem;
-  }
-  footer button {
-    background: none;
-    border: none;
-    color: var(--muted);
-    text-decoration: underline;
-    cursor: pointer;
-    font-size: 0.8rem;
-    padding: 0;
-  }
+  footer { text-align: center; padding: 18px; color: var(--muted); font-size: 0.8rem; }
+  footer button { background: none; border: none; color: var(--muted); text-decoration: underline; cursor: pointer; font-size: 0.8rem; padding: 0; }
   footer button:hover { color: var(--text); }
 
   @media (max-width: 560px) {
-    .stats-panel { grid-template-columns: repeat(3, 1fr); }
-    .stats-panel .btn-primary { grid-column: 1 / -1; }
+    .stats-panel { grid-template-columns: repeat(2, 1fr); }
     .ticket-status { flex-direction: column; }
-    .ticket-row { flex-wrap: wrap; }
   }
 </style>
 </head>
@@ -388,10 +252,10 @@
           </linearGradient>
         </defs>
         <rect width="34" height="34" rx="10" fill="url(#fcGrad)"></rect>
-        <text x="6.5" y="24" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="17" fill="#FFFFFF">F</text>
-        <circle cx="24" cy="17" r="6" fill="none" stroke="#FFFFFF" stroke-width="2.2"></circle>
-        <line x1="24" y1="17" x2="24" y2="12.8" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"></line>
-        <line x1="24" y1="17" x2="27.2" y2="17" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"></line>
+        <circle cx="13" cy="17" r="7.2" fill="none" stroke="#FFFFFF" stroke-width="2.6"></circle>
+        <circle cx="23.5" cy="17" r="1.7" fill="#FFFFFF"></circle>
+        <circle cx="27.3" cy="17" r="1.3" fill="#FFFFFF" opacity="0.75"></circle>
+        <circle cx="30.4" cy="17" r="1" fill="#FFFFFF" opacity="0.5"></circle>
       </svg>
       <span class="brand-name">FilaCero</span>
     </div>
@@ -402,14 +266,67 @@
   </header>
 
   <main>
-    <!-- Vista cliente -->
     <section id="view-cliente" class="view active">
-      <div id="cliente-pretake" class="panel">
+      <div id="cliente-auth" class="panel">
+        <div style="text-align: center; margin-bottom: 22px;">
+          <svg width="64" height="64" viewBox="0 0 34 34" aria-hidden="true">
+            <defs>
+              <linearGradient id="fcGradAuth" x1="0" y1="0" x2="34" y2="34" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#E69A3A"></stop>
+                <stop offset="1" stop-color="#1E8F82"></stop>
+              </linearGradient>
+            </defs>
+            <rect width="34" height="34" rx="10" fill="url(#fcGradAuth)"></rect>
+            <circle cx="13" cy="17" r="7.2" fill="none" stroke="#FFFFFF" stroke-width="2.6"></circle>
+            <circle cx="23.5" cy="17" r="1.7" fill="#FFFFFF"></circle>
+            <circle cx="27.3" cy="17" r="1.3" fill="#FFFFFF" opacity="0.75"></circle>
+            <circle cx="30.4" cy="17" r="1" fill="#FFFFFF" opacity="0.5"></circle>
+          </svg>
+        </div>
+        <div id="auth-step-registro">
+          <h1>Regístrate para sacar tu turno</h1>
+          <p class="lead">Te enviaremos alertas por SMS cuando tu turno se acerque.</p>
+          <label>Tu nombre
+            <input type="text" id="input-auth-nombre" placeholder="Ej. Andrés" maxlength="30">
+          </label>
+          <label>Número de celular
+            <input type="text" id="input-auth-celular" placeholder="Ej. 3001234567" maxlength="15">
+          </label>
+          <div id="auth-registro-error" class="login-error hidden"></div>
+          <button id="btn-enviar-codigo" class="btn-primary" type="button">Enviar código</button>
+        </div>
+
+        <div id="auth-step-verificacion" class="hidden">
+          <h1>Confirma tu número</h1>
+          <p class="lead">Enviamos un código de verificación al número <strong id="auth-celular-mostrado"></strong>. Para esta prueba, usa el código <strong>1234</strong>.</p>
+          <label>Código de verificación
+            <input type="text" id="input-auth-codigo" placeholder="1234" maxlength="4">
+          </label>
+          <div id="auth-codigo-error" class="login-error hidden">Código incorrecto. Intenta de nuevo.</div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button id="btn-confirmar-codigo" class="btn-primary" type="button">Confirmar código</button>
+            <button id="btn-cambiar-numero" class="btn-ghost" type="button">Cambiar número</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="cliente-pretake" class="panel hidden">
         <h1>Saca tu turno virtual</h1>
         <p class="lead">Reserva tu lugar sin hacer fila. Te asignamos una franja horaria y solo debes llegar cerca de tu turno.</p>
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:20px;">
+          <p class="muted-text" id="auth-resumen" style="margin:0;"></p>
+          <button id="btn-cambiar-numero-2" class="btn-ghost small" type="button">Cambiar número</button>
+        </div>
         <div id="cliente-form-fields">
-          <label>Tu nombre (opcional)
-            <input type="text" id="input-nombre" placeholder="Ej. Andrés" maxlength="30">
+          <label>Sede
+            <select id="select-sede-cliente">
+              <option value="centro">Sede Centro</option>
+              <option value="norte">Sede Norte</option>
+            </select>
+          </label>
+          <label class="checkbox-row">
+            <input type="checkbox" id="chk-prioridad">
+            <span>Necesito atención prioritaria (adulto mayor, embarazo o discapacidad)</span>
           </label>
           <label>Horario preferido
             <select id="select-horario">
@@ -418,37 +335,58 @@
           </label>
           <button id="btn-tomar-turno" class="btn-primary" type="button">Sacar turno virtual</button>
         </div>
-        <div id="cliente-cerrado-msg" class="notice hidden">El negocio está cerrado en este momento. Intenta más tarde.</div>
+        <div id="cliente-cerrado-msg" class="notice hidden"></div>
       </div>
 
       <div id="cliente-ticket" class="panel hidden">
+        <p class="muted-text" id="ticket-sede-label" style="margin:0 0 4px; text-align:center;"></p>
+        <p class="muted-text" id="ticket-alertas-info" style="margin:0 0 12px; text-align:center;"></p>
         <div class="ticket-board">
           <span class="ticket-label">Tu turno</span>
           <span class="ticket-number" id="ticket-number">#000</span>
           <span class="ticket-slot" id="ticket-slot">—</span>
         </div>
         <div class="ticket-status">
-          <div class="status-row">
-            <span>Posición en la fila</span>
-            <strong id="ticket-position">—</strong>
-          </div>
-          <div class="status-row">
-            <span>Espera estimada</span>
-            <strong id="ticket-wait">—</strong>
-          </div>
+          <div class="status-row"><span>Posición en la fila</span><strong id="ticket-position">—</strong></div>
+          <div class="status-row"><span>Espera estimada</span><strong id="ticket-wait">—</strong></div>
         </div>
         <div id="ticket-banner" class="banner hidden"></div>
-        <button id="btn-cancelar" class="btn-ghost" type="button">Cancelar turno</button>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button id="btn-checkin" class="btn-ghost" type="button">Confirmar mi llegada</button>
+          <button id="btn-cancelar" class="btn-ghost" type="button">Cancelar turno</button>
+          <button id="btn-archivar-turno" class="btn-primary hidden" type="button">Aceptar y volver</button>
+        </div>
+        <div id="reprogramar-box" class="reprogramar-box hidden">
+          <label>Cambiar de horario
+            <select id="select-reprogramar"></select>
+          </label>
+          <button id="btn-reprogramar" class="btn-ghost small" type="button">Cambiar horario</button>
+          <div id="reprogramar-error" class="login-error hidden" style="margin-top:8px;"></div>
+        </div>
       </div>
 
-      <div class="panel">
-        <h2>Cómo se reparten las llegadas</h2>
-        <p class="muted-text">En vez de una sola fila física, cada persona llega en una franja distinta de 15 minutos.</p>
-        <div id="timeline-cliente" class="timeline"></div>
+      <div id="cliente-info-panels" class="hidden" style="display: contents;">
+        <div class="panel">
+          <h2>Cómo se reparten las llegadas</h2>
+          <p class="muted-text">En vez de una sola fila física, cada persona llega en una franja distinta de 15 minutos.</p>
+          <div id="timeline-cliente" class="timeline"></div>
+        </div>
+
+        <div class="panel">
+          <h2>¿Cuándo es mejor ir?</h2>
+          <p class="muted-text">Así está la ocupación de cada franja ahora mismo.</p>
+          <div id="horario-recomendacion" class="notice" style="margin-bottom: 14px;"></div>
+          <div id="horario-stats-list" class="slots-manager"></div>
+        </div>
+
+        <div class="panel">
+          <h2>Mis turnos anteriores</h2>
+          <p class="muted-text">Historial de tus turnos en esta sesión.</p>
+          <div id="mis-turnos-list" class="historial-list"></div>
+        </div>
       </div>
     </section>
 
-    <!-- Vista negocio -->
     <section id="view-negocio" class="view">
       <div id="negocio-login" class="panel">
         <h1>Acceso del negocio</h1>
@@ -467,46 +405,89 @@
         <div class="panel">
           <div class="negocio-header">
             <div>
-              <h2>Estado del negocio</h2>
-              <p class="muted-text" id="negocio-status-text" style="margin:0;">Negocio abierto — los clientes pueden sacar turnos.</p>
+              <h2>Sede</h2>
+              <p class="muted-text" style="margin:0;">Selecciona la sede que quieres gestionar.</p>
             </div>
-            <button id="btn-toggle-negocio" class="btn-ghost small" type="button">Cerrar negocio</button>
+            <select id="select-sede-negocio" class="inline-select">
+              <option value="centro">Sede Centro</option>
+              <option value="norte">Sede Norte</option>
+            </select>
           </div>
+        </div>
+
+        <div class="panel">
+          <div class="negocio-header">
+            <div>
+              <h2>Estado del negocio</h2>
+              <p class="muted-text" id="negocio-status-text" style="margin:0;"></p>
+            </div>
+            <button id="btn-toggle-negocio" class="btn-ghost small" type="button"></button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Resumen</h2>
+          <div id="resumen-admin"></div>
         </div>
 
         <div class="panel stats-panel">
           <div class="stat"><span class="stat-value" id="stat-espera">0</span><span class="stat-label">En espera</span></div>
           <div class="stat"><span class="stat-value" id="stat-llamados">0</span><span class="stat-label">Llamados</span></div>
           <div class="stat"><span class="stat-value" id="stat-atendidos">0</span><span class="stat-label">Atendidos</span></div>
-          <button id="btn-llamar" class="btn-primary" type="button">Llamar siguiente</button>
+          <div class="stat"><span class="stat-value" id="stat-noshow">0</span><span class="stat-label">No se presentó</span></div>
         </div>
 
         <div class="panel">
-          <h2>Distribución de llegadas</h2>
-          <p class="muted-text">Turnos asignados por franja horaria.</p>
-          <div id="timeline-negocio" class="timeline"></div>
+          <h2>Ventanillas de atención</h2>
+          <p class="muted-text">Cada agente llama y atiende sus propios turnos.</p>
+          <div id="agentes-panel" class="agentes-panel"></div>
+        </div>
+
+        <div class="panel">
+          <h2>Tráfico en tiempo real</h2>
+          <p class="muted-text">Ocupación actual de cada franja horaria.</p>
+          <p class="muted-text" id="trafico-resumen" style="margin:0 0 10px;"></p>
+          <div id="alertas-saturacion"></div>
+          <div id="trafico-tiempo-real"></div>
+        </div>
+
+        <div class="panel">
+          <h2>Histórico</h2>
+          <p class="muted-text">Datos acumulados desde que empezó la demo.</p>
+          <div class="stats-panel">
+            <div class="stat"><span class="stat-value" id="stat-hist-creados">0</span><span class="stat-label">Generados</span></div>
+            <div class="stat"><span class="stat-value" id="stat-hist-atendidos">0</span><span class="stat-label">Atendidos</span></div>
+            <div class="stat"><span class="stat-value" id="stat-hist-cancelados">0</span><span class="stat-label">Cancelados</span></div>
+            <div class="stat"><span class="stat-value" id="stat-hist-noshow">0</span><span class="stat-label">No se presentó</span></div>
+          </div>
+          <div id="historico-tasas" style="margin-top: 14px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;"></div>
+          <div style="margin-top: 16px; display: flex; flex-direction: column; gap: 6px;">
+            <p class="muted-text" style="margin:0;">Franja más solicitada: <strong id="stat-hist-pico" style="color: var(--text);">—</strong></p>
+            <p class="muted-text" style="margin:0;">Franja más tranquila: <strong id="stat-hist-tranquila" style="color: var(--text);">—</strong></p>
+          </div>
+          <button id="btn-generar-reporte" class="btn-ghost small" type="button" style="margin-top: 14px;">Generar reporte (CSV)</button>
+          <textarea id="reporte-output" class="report-textarea hidden" readonly></textarea>
         </div>
 
         <div class="panel">
           <h2>Franjas horarias</h2>
-          <p class="muted-text">Habilita o deshabilita franjas para controlar la afluencia.</p>
+          <p class="muted-text">Habilita, deshabilita o ajusta el cupo de cada franja.</p>
           <div id="slots-manager" class="slots-manager"></div>
         </div>
 
         <div class="panel">
           <div class="list-header">
             <h2>Turnos</h2>
-            <div style="display:flex; gap:8px;">
-              <button id="btn-simular" class="btn-ghost small" type="button">Simular llegada</button>
-              <button id="btn-logout-negocio" class="btn-ghost small" type="button">Cerrar sesión</button>
-            </div>
+            <button id="btn-simular" class="btn-ghost small" type="button">Simular llegada</button>
           </div>
           <div id="tickets-list" class="tickets-list"></div>
         </div>
 
         <div class="panel">
-          <h2>Historial</h2>
-          <p class="muted-text">Actividad reciente del negocio.</p>
+          <div class="list-header">
+            <h2>Historial de actividad</h2>
+            <button id="btn-logout-negocio" class="btn-ghost small" type="button">Cerrar sesión</button>
+          </div>
           <div id="historial-list" class="historial-list"></div>
         </div>
       </div>
@@ -521,112 +502,363 @@
 
 <script>
 (function () {
-  var SLOT_MINUTES = 15;
-  var SLOT_CAPACITY = 4;
-  var SERVICE_MINUTES = 4;
+  'use strict';
 
+  // ============================================================
+  // 1. CONFIGURACIÓN
+  // ============================================================
+  var SLOT_MINUTES = 15;
+  var DEFAULT_CAPACITY = 4;
+  var SERVICE_MINUTES = 4;
+  var NO_SHOW_WARNING_SECONDS = 25; // corto a propósito para que se note en la demo
+  var AGENTES_POR_SEDE = ['Agente 1', 'Agente 2'];
+  var SEDES_CONFIG = [
+    { id: 'centro', nombre: 'Sede Centro' },
+    { id: 'norte', nombre: 'Sede Norte' }
+  ];
+
+  // ============================================================
+  // 2. UTILIDADES
+  // ============================================================
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function nowTimeLabel() { var d = new Date(); return pad(d.getHours()) + ':' + pad(d.getMinutes()); }
+  function formatSecs(s) { var m = Math.floor(s / 60); var ss = s % 60; return (m > 0 ? (m + 'm ') : '') + ss + 's'; }
+  function escapeHtml(s) { var div = document.createElement('div'); div.textContent = s; return div.innerHTML; }
+  function sedeNombre(id) { var f = SEDES_CONFIG.find(function (s) { return s.id === id; }); return f ? f.nombre : id; }
+  function labelForEstado(status) {
+    if (status === 'esperando') return 'Esperando';
+    if (status === 'llamado') return 'Llamado';
+    if (status === 'atendido') return 'Atendido';
+    return 'No se presentó';
+  }
+  function trafficLevel(slot, count) {
+    if (!slot.enabled) return { cls: 'no-disponible', label: 'No disponible' };
+    if (count === 0) return { cls: 'poco', label: 'Sin turnos' };
+    var ratio = count / slot.capacity;
+    if (ratio < 0.5) return { cls: 'poco', label: 'Poco tráfico' };
+    if (ratio < 1) return { cls: 'medio', label: 'Tráfico medio' };
+    return { cls: 'lleno', label: 'Lleno' };
+  }
+  function attendanceLevel(rate) {
+    if (rate >= 0.85) return { cls: 'poco', label: 'Buena asistencia' };
+    if (rate >= 0.6) return { cls: 'medio', label: 'Asistencia media' };
+    return { cls: 'lleno', label: 'Asistencia baja' };
+  }
+
+  // ============================================================
+  // 3. MODELO DE DATOS
+  // ============================================================
   function buildSlots() {
     var slots = [];
     var startHour = 9, startMin = 0;
     for (var i = 0; i < 14; i++) {
       var totalMin = startHour * 60 + startMin + i * SLOT_MINUTES;
-      var h = Math.floor(totalMin / 60);
-      var m = totalMin % 60;
-      var h2 = Math.floor((totalMin + SLOT_MINUTES) / 60);
-      var m2 = (totalMin + SLOT_MINUTES) % 60;
-      slots.push({
-        label: pad(h) + ':' + pad(m) + '–' + pad(h2) + ':' + pad(m2),
-        enabled: true
-      });
+      var h = Math.floor(totalMin / 60), m = totalMin % 60;
+      var h2 = Math.floor((totalMin + SLOT_MINUTES) / 60), m2 = (totalMin + SLOT_MINUTES) % 60;
+      slots.push({ label: pad(h) + ':' + pad(m) + '–' + pad(h2) + ':' + pad(m2), enabled: true, capacity: DEFAULT_CAPACITY });
     }
     return slots;
   }
-  function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+  function buildSedeData() {
+    var slots = buildSlots();
+    return {
+      slots: slots,
+      tickets: [],
+      nextNumber: 41,
+      nextId: 1,
+      negocioAbierto: true,
+      history: [],
+      stats: { creados: 0, atendidos: 0, cancelados: 0, noShows: 0 },
+      slotLifetime: slots.map(function () { return 0; }),
+      agentes: AGENTES_POR_SEDE.map(function (nombre, idx) { return { id: idx + 1, nombre: nombre, currentTicketId: null }; })
+    };
+  }
 
   var state = {
-    slots: buildSlots(),
-    tickets: [],
-    nextNumber: 41,
-    nextId: 1,
+    sedeData: {},
     myTicketId: null,
+    myTicketSedeId: null,
+    clienteSedeActual: SEDES_CONFIG[0].id,
     negocioAuth: false,
-    negocioAbierto: true,
-    history: []
+    negocioSedeActual: SEDES_CONFIG[0].id,
+    misTurnosHistorial: [],
+    clienteAuth: { registrado: false, verificado: false, nombre: '', celular: '' }
   };
 
-  function logEvent(text) {
-    var now = new Date();
-    var time = pad(now.getHours()) + ':' + pad(now.getMinutes());
-    state.history.unshift({ time: time, text: text });
-    if (state.history.length > 50) state.history.pop();
+  // ============================================================
+  // 4. LÓGICA DE NEGOCIO
+  // ============================================================
+  function logEvent(sede, text) {
+    sede.history.unshift({ time: nowTimeLabel(), text: text });
+    if (sede.history.length > 50) sede.history.pop();
   }
 
-  function seed() {
-    state.tickets = [];
-    state.nextNumber = 41;
-    state.nextId = 1;
-    state.myTicketId = null;
-    state.negocioAuth = false;
-    state.negocioAbierto = true;
-    state.history = [];
-    state.slots.forEach(function (s) { s.enabled = true; });
-    var seedNames = ['Camila', 'Jorge', 'Valentina', 'Anónimo', 'Sara'];
-    var seedSlots = [0, 0, 1, 1, 2];
-    for (var i = 0; i < seedNames.length; i++) {
-      addTicket(seedNames[i], seedSlots[i], false);
-    }
-  }
-
-  function addTicket(name, forcedSlot, isMine) {
-    var slotIndex = typeof forcedSlot === 'number' ? forcedSlot : pickSlot();
-    var ticket = {
-      id: state.nextId++,
-      number: state.nextNumber++,
-      name: name && name.trim() ? name.trim() : 'Anónimo',
-      slotIndex: slotIndex,
-      status: 'esperando'
-    };
-    state.tickets.push(ticket);
-    if (isMine) state.myTicketId = ticket.id;
-    return ticket;
-  }
-
-  function pickSlot() {
+  function pickSlot(sede) {
     var best = -1, bestCount = Infinity;
-    for (var i = 0; i < state.slots.length; i++) {
-      if (!state.slots[i].enabled) continue;
-      var count = state.tickets.filter(function (t) {
-        return t.slotIndex === i && t.status !== 'atendido';
-      }).length;
+    for (var i = 0; i < sede.slots.length; i++) {
+      var slot = sede.slots[i];
+      if (!slot.enabled) continue;
+      var count = sede.tickets.filter(function (t) { return t.slotIndex === i && t.status !== 'atendido' && t.status !== 'no_show'; }).length;
       if (count < bestCount) { bestCount = count; best = i; }
-      if (count < SLOT_CAPACITY) return i;
+      if (count < slot.capacity) return i;
     }
     return best === -1 ? 0 : best;
   }
 
-  function activeOrdered() {
-    return state.tickets
-      .filter(function (t) { return t.status !== 'atendido'; })
-      .sort(function (a, b) {
-        if (a.slotIndex !== b.slotIndex) return a.slotIndex - b.slotIndex;
-        return a.id - b.id;
-      });
+  function addTicket(sedeId, name, forcedSlot, isMine, prioridad) {
+    var sede = state.sedeData[sedeId];
+    var slotIndex = typeof forcedSlot === 'number' ? forcedSlot : pickSlot(sede);
+    var ticket = {
+      id: sede.nextId++,
+      number: sede.nextNumber++,
+      name: name && name.trim() ? name.trim() : 'Anónimo',
+      slotIndex: slotIndex,
+      status: 'esperando',
+      prioridad: !!prioridad,
+      checkIn: false,
+      agenteId: null,
+      calledAt: null,
+      attendedBy: null
+    };
+    sede.tickets.push(ticket);
+    sede.stats.creados++;
+    sede.slotLifetime[slotIndex]++;
+    if (isMine) { state.myTicketId = ticket.id; state.myTicketSedeId = sedeId; }
+    return ticket;
   }
 
-  function positionOf(ticket) {
-    var ordered = activeOrdered();
-    for (var i = 0; i < ordered.length; i++) {
-      if (ordered[i].id === ticket.id) return i + 1;
-    }
+  function compareQueue(a, b) {
+    if (a.prioridad !== b.prioridad) return a.prioridad ? -1 : 1;
+    if (a.checkIn !== b.checkIn) return a.checkIn ? -1 : 1;
+    if (a.slotIndex !== b.slotIndex) return a.slotIndex - b.slotIndex;
+    return a.id - b.id;
+  }
+
+  function activeOrdered(sede) {
+    return sede.tickets.filter(function (t) { return t.status === 'esperando' || t.status === 'llamado'; }).sort(compareQueue);
+  }
+
+  function siguienteEnEspera(sede) {
+    var candidatos = sede.tickets.filter(function (t) { return t.status === 'esperando'; }).sort(compareQueue);
+    return candidatos.length ? candidatos[0] : null;
+  }
+
+  function positionOf(sede, ticket) {
+    var ordered = activeOrdered(sede);
+    for (var i = 0; i < ordered.length; i++) { if (ordered[i].id === ticket.id) return i + 1; }
     return ordered.length;
   }
 
-  // ---- Rendering ----
-  function renderTimeline(containerId) {
+  function reprogramarTicket(sede, ticket, nuevoSlotIndex) {
+    var slot = sede.slots[nuevoSlotIndex];
+    if (!slot || !slot.enabled) return false;
+    var count = sede.tickets.filter(function (t) {
+      return t.slotIndex === nuevoSlotIndex && t.id !== ticket.id && t.status !== 'atendido' && t.status !== 'no_show';
+    }).length;
+    if (count >= slot.capacity) return false;
+    ticket.slotIndex = nuevoSlotIndex;
+    return true;
+  }
+
+  function llamarSiguiente(sede, agente) {
+    var next = siguienteEnEspera(sede);
+    if (!next) return null;
+    next.status = 'llamado';
+    next.agenteId = agente.id;
+    next.calledAt = Date.now();
+    agente.currentTicketId = next.id;
+    logEvent(sede, 'Turno #' + next.number + ' llamado por ' + agente.nombre + '.');
+    return next;
+  }
+
+  function marcarAtendido(sede, agente) {
+    var ticket = sede.tickets.find(function (t) { return t.id === agente.currentTicketId; });
+    if (!ticket) return null;
+    ticket.status = 'atendido';
+    ticket.attendedBy = agente.nombre;
+    sede.stats.atendidos++;
+    agente.currentTicketId = null;
+    logEvent(sede, 'Turno #' + ticket.number + ' atendido por ' + agente.nombre + '.');
+    return ticket;
+  }
+
+  function marcarNoShow(sede, agente) {
+    var ticket = sede.tickets.find(function (t) { return t.id === agente.currentTicketId; });
+    if (!ticket) return null;
+    ticket.status = 'no_show';
+    ticket.attendedBy = agente.nombre;
+    sede.stats.noShows++;
+    agente.currentTicketId = null;
+    logEvent(sede, 'Turno #' + ticket.number + ' no se presentó (agente: ' + agente.nombre + ').');
+    return ticket;
+  }
+
+  function getMyTicket() {
+    if (!state.myTicketSedeId) return null;
+    var sede = state.sedeData[state.myTicketSedeId];
+    if (!sede) return null;
+    return sede.tickets.find(function (t) { return t.id === state.myTicketId; }) || null;
+  }
+
+  function archivarMiTurno() {
+    var ticket = getMyTicket();
+    if (ticket) {
+      state.misTurnosHistorial.unshift({
+        sede: sedeNombre(state.myTicketSedeId),
+        number: ticket.number,
+        resultado: ticket.status === 'atendido' ? 'Atendido' : 'No se presentó',
+        time: nowTimeLabel()
+      });
+      if (state.misTurnosHistorial.length > 20) state.misTurnosHistorial.pop();
+    }
+    state.myTicketId = null;
+    state.myTicketSedeId = null;
+  }
+
+  function generarReporteCSV(sede) {
+    var lines = ['Numero,Nombre,Franja,Estado,Prioritario,EnSitio,AtendidoPor'];
+    sede.tickets.slice().sort(function (a, b) { return a.id - b.id; }).forEach(function (t) {
+      lines.push([
+        t.number,
+        '"' + t.name.replace(/"/g, '""') + '"',
+        sede.slots[t.slotIndex].label,
+        labelForEstado(t.status),
+        t.prioridad ? 'Si' : 'No',
+        t.checkIn ? 'Si' : 'No',
+        t.attendedBy || ''
+      ].join(','));
+    });
+    lines.push('');
+    lines.push('Resumen,,,,,,');
+    lines.push('Generados,' + sede.stats.creados + ',,,,,');
+    lines.push('Atendidos,' + sede.stats.atendidos + ',,,,,');
+    lines.push('Cancelados,' + sede.stats.cancelados + ',,,,,');
+    lines.push('NoSePresento,' + sede.stats.noShows + ',,,,,');
+    return lines.join('\n');
+  }
+
+  function resetAll() {
+    var sedeData = {};
+    SEDES_CONFIG.forEach(function (s) { sedeData[s.id] = buildSedeData(); });
+    state.sedeData = sedeData;
+    state.myTicketId = null;
+    state.myTicketSedeId = null;
+    state.clienteSedeActual = SEDES_CONFIG[0].id;
+    state.negocioAuth = false;
+    state.negocioSedeActual = SEDES_CONFIG[0].id;
+    state.misTurnosHistorial = [];
+    state.clienteAuth = { registrado: false, verificado: false, nombre: '', celular: '' };
+    var nombres = ['Camila', 'Jorge', 'Valentina', 'Anónimo', 'Sara'];
+    var slots = [0, 0, 1, 1, 2];
+    for (var i = 0; i < nombres.length; i++) {
+      addTicket(SEDES_CONFIG[0].id, nombres[i], slots[i], false, false);
+    }
+  }
+
+  // ============================================================
+  // 5. RENDERIZADO — vista cliente
+  // ============================================================
+  function renderCliente() {
+    var authPanel = document.getElementById('cliente-auth');
+    var pre = document.getElementById('cliente-pretake');
+    var ticketPanel = document.getElementById('cliente-ticket');
+    var infoPanels = document.getElementById('cliente-info-panels');
+
+    if (!state.clienteAuth.verificado) {
+      authPanel.classList.remove('hidden');
+      pre.classList.add('hidden');
+      ticketPanel.classList.add('hidden');
+      infoPanels.classList.add('hidden');
+      renderClienteAuth();
+      return;
+    }
+    authPanel.classList.add('hidden');
+    infoPanels.classList.remove('hidden');
+
+    var formFields = document.getElementById('cliente-form-fields');
+    var closedMsg = document.getElementById('cliente-cerrado-msg');
+    var myTicket = getMyTicket();
+
+    if (!myTicket) {
+      pre.classList.remove('hidden');
+      ticketPanel.classList.add('hidden');
+      document.getElementById('auth-resumen').textContent = 'A nombre de ' + (state.clienteAuth.nombre || 'Anónimo') + ' · Alertas al ' + state.clienteAuth.celular;
+      var sedeSel = state.sedeData[state.clienteSedeActual];
+      if (sedeSel.negocioAbierto) {
+        formFields.classList.remove('hidden');
+        closedMsg.classList.add('hidden');
+        renderSlotOptions(sedeSel);
+      } else {
+        formFields.classList.add('hidden');
+        closedMsg.classList.remove('hidden');
+        closedMsg.textContent = 'Esta sede está cerrada en este momento. Intenta más tarde o elige otra sede.';
+      }
+    } else {
+      var mySede = state.sedeData[state.myTicketSedeId];
+      pre.classList.add('hidden');
+      ticketPanel.classList.remove('hidden');
+
+      document.getElementById('ticket-sede-label').textContent = sedeNombre(state.myTicketSedeId);
+      document.getElementById('ticket-alertas-info').textContent = 'Te avisaremos por SMS al ' + state.clienteAuth.celular + ' cuando tu turno se acerque.';
+      document.getElementById('ticket-number').textContent = '#' + myTicket.number;
+      document.getElementById('ticket-slot').textContent = mySede.slots[myTicket.slotIndex].label + (myTicket.prioridad ? ' · Prioritario' : '');
+
+      var banner = document.getElementById('ticket-banner');
+      var checkinBtn = document.getElementById('btn-checkin');
+      var cancelBtn = document.getElementById('btn-cancelar');
+      var archivarBtn = document.getElementById('btn-archivar-turno');
+      var reprogramarBox = document.getElementById('reprogramar-box');
+
+      if (myTicket.status === 'atendido' || myTicket.status === 'no_show') {
+        document.getElementById('ticket-position').textContent = '—';
+        document.getElementById('ticket-wait').textContent = '—';
+        banner.textContent = myTicket.status === 'atendido'
+          ? 'Fuiste atendido. Gracias por usar FilaCero.'
+          : 'Se registró que no llegaste a tiempo para tu turno.';
+        banner.className = myTicket.status === 'atendido' ? 'banner done' : 'banner';
+        banner.classList.remove('hidden');
+        checkinBtn.classList.add('hidden');
+        cancelBtn.classList.add('hidden');
+        reprogramarBox.classList.add('hidden');
+        archivarBtn.classList.remove('hidden');
+      } else {
+        archivarBtn.classList.add('hidden');
+        cancelBtn.classList.remove('hidden');
+        checkinBtn.classList.remove('hidden');
+        checkinBtn.disabled = myTicket.checkIn;
+        checkinBtn.textContent = myTicket.checkIn ? 'Llegada confirmada ✓' : 'Confirmar mi llegada';
+
+        if (myTicket.status === 'llamado') {
+          document.getElementById('ticket-position').textContent = '0';
+          document.getElementById('ticket-wait').textContent = 'Ahora';
+          banner.textContent = 'Tu turno fue llamado. Preséntate ahora.';
+          banner.className = 'banner';
+          banner.classList.remove('hidden');
+          reprogramarBox.classList.add('hidden');
+        } else {
+          var pos = positionOf(mySede, myTicket);
+          var waitMin = Math.max((pos - 1) * SERVICE_MINUTES, 0);
+          document.getElementById('ticket-position').textContent = String(pos);
+          document.getElementById('ticket-wait').textContent = waitMin === 0 ? 'Menos de 5 min' : ('~' + waitMin + ' min');
+          banner.classList.add('hidden');
+          reprogramarBox.classList.remove('hidden');
+          renderReprogramarOptions(mySede, myTicket);
+        }
+      }
+    }
+
+    var sedeTimeline = myTicket ? state.sedeData[state.myTicketSedeId] : state.sedeData[state.clienteSedeActual];
+    renderTimeline('timeline-cliente', sedeTimeline);
+    renderHorarioCliente(sedeTimeline);
+    renderMisTurnos();
+  }
+
+  function renderTimeline(containerId, sede) {
     var el = document.getElementById(containerId);
     el.innerHTML = '';
-    state.slots.forEach(function (slot, i) {
-      var slotTickets = state.tickets.filter(function (t) { return t.slotIndex === i; });
+    sede.slots.forEach(function (slot, i) {
+      var slotTickets = sede.tickets.filter(function (t) { return t.slotIndex === i; });
       var box = document.createElement('div');
       box.className = 'slot';
       var time = document.createElement('div');
@@ -645,12 +877,32 @@
     });
   }
 
-  function renderSlotOptions() {
+  function renderSlotOptions(sede) {
     var select = document.getElementById('select-horario');
     while (select.options.length > 1) select.remove(1);
-    state.slots.forEach(function (slot, i) {
-      var count = state.tickets.filter(function (t) {
-        return t.slotIndex === i && t.status !== 'atendido';
+    sede.slots.forEach(function (slot, i) {
+      var count = sede.tickets.filter(function (t) { return t.slotIndex === i && t.status !== 'atendido' && t.status !== 'no_show'; }).length;
+      var opt = document.createElement('option');
+      opt.value = String(i);
+      if (!slot.enabled) {
+        opt.textContent = slot.label + ' — no disponible';
+        opt.disabled = true;
+      } else {
+        var full = count >= slot.capacity;
+        opt.textContent = slot.label + (full ? ' — completo' : ' — ' + count + '/' + slot.capacity);
+        opt.disabled = full;
+      }
+      select.appendChild(opt);
+    });
+  }
+
+  function renderReprogramarOptions(sede, ticket) {
+    var select = document.getElementById('select-reprogramar');
+    select.innerHTML = '';
+    sede.slots.forEach(function (slot, i) {
+      if (i === ticket.slotIndex) return;
+      var count = sede.tickets.filter(function (t) {
+        return t.slotIndex === i && t.id !== ticket.id && t.status !== 'atendido' && t.status !== 'no_show';
       }).length;
       var opt = document.createElement('option');
       opt.value = String(i);
@@ -658,118 +910,75 @@
         opt.textContent = slot.label + ' — no disponible';
         opt.disabled = true;
       } else {
-        var full = count >= SLOT_CAPACITY;
-        opt.textContent = slot.label + (full ? ' — completo' : ' — ' + count + '/' + SLOT_CAPACITY);
+        var full = count >= slot.capacity;
+        opt.textContent = slot.label + (full ? ' — completo' : ' — ' + count + '/' + slot.capacity);
         opt.disabled = full;
       }
       select.appendChild(opt);
     });
   }
 
-  function renderCliente() {
-    var pre = document.getElementById('cliente-pretake');
-    var ticketPanel = document.getElementById('cliente-ticket');
-    var formFields = document.getElementById('cliente-form-fields');
-    var closedMsg = document.getElementById('cliente-cerrado-msg');
-    var myTicket = state.tickets.find(function (t) { return t.id === state.myTicketId; });
-
-    if (!myTicket) {
-      pre.classList.remove('hidden');
-      ticketPanel.classList.add('hidden');
-      if (state.negocioAbierto) {
-        formFields.classList.remove('hidden');
-        closedMsg.classList.add('hidden');
-        renderSlotOptions();
-      } else {
-        formFields.classList.add('hidden');
-        closedMsg.classList.remove('hidden');
-      }
-    } else {
-      pre.classList.add('hidden');
-      ticketPanel.classList.remove('hidden');
-
-      document.getElementById('ticket-number').textContent = '#' + myTicket.number;
-      document.getElementById('ticket-slot').textContent = state.slots[myTicket.slotIndex].label;
-
-      var banner = document.getElementById('ticket-banner');
-      if (myTicket.status === 'atendido') {
-        document.getElementById('ticket-position').textContent = '—';
-        document.getElementById('ticket-wait').textContent = '—';
-        banner.textContent = 'Fuiste atendido. Gracias por usar FilaCero.';
-        banner.className = 'banner done';
-      } else if (myTicket.status === 'llamado') {
-        document.getElementById('ticket-position').textContent = '0';
-        document.getElementById('ticket-wait').textContent = 'Ahora';
-        banner.textContent = 'Tu turno fue llamado. Preséntate ahora.';
-        banner.className = 'banner';
-      } else {
-        var pos = positionOf(myTicket);
-        var waitMin = Math.max((pos - 1) * SERVICE_MINUTES, 0);
-        document.getElementById('ticket-position').textContent = String(pos);
-        document.getElementById('ticket-wait').textContent = waitMin === 0 ? 'Menos de 5 min' : ('~' + waitMin + ' min');
-        banner.classList.add('hidden');
-      }
-      if (myTicket.status !== 'esperando') banner.classList.remove('hidden');
-    }
-    renderTimeline('timeline-cliente');
-  }
-
-  function renderNegocio() {
-    var esperando = state.tickets.filter(function (t) { return t.status === 'esperando'; }).length;
-    var llamados = state.tickets.filter(function (t) { return t.status === 'llamado'; }).length;
-    var atendidos = state.tickets.filter(function (t) { return t.status === 'atendido'; }).length;
-    document.getElementById('stat-espera').textContent = esperando;
-    document.getElementById('stat-llamados').textContent = llamados;
-    document.getElementById('stat-atendidos').textContent = atendidos;
-    document.getElementById('btn-llamar').disabled = esperando === 0;
-
-    var list = document.getElementById('tickets-list');
-    list.innerHTML = '';
-    var ordered = state.tickets.slice().sort(function (a, b) {
-      if (a.slotIndex !== b.slotIndex) return a.slotIndex - b.slotIndex;
-      return a.id - b.id;
+  function renderHorarioCliente(sede) {
+    var counts = sede.slots.map(function (slot, i) {
+      return sede.tickets.filter(function (t) { return t.slotIndex === i && t.status !== 'atendido' && t.status !== 'no_show'; }).length;
     });
-    if (ordered.length === 0) {
-      list.innerHTML = '<div class="empty-state">No hay turnos registrados todavía.</div>';
+    var bestIndex = -1, bestCount = Infinity;
+    sede.slots.forEach(function (slot, i) {
+      if (!slot.enabled) return;
+      if (counts[i] < slot.capacity && counts[i] < bestCount) { bestCount = counts[i]; bestIndex = i; }
+    });
+    var recEl = document.getElementById('horario-recomendacion');
+    if (bestIndex === -1) {
+      recEl.textContent = 'Todas las franjas están llenas o no disponibles por ahora.';
     } else {
-      ordered.forEach(function (t) {
-        var row = document.createElement('div');
-        row.className = 'ticket-row';
-        row.innerHTML =
-          '<span class="num">#' + t.number + '</span>' +
-          '<span class="name">' + escapeHtml(t.name) + (t.id === state.myTicketId ? ' (tú)' : '') + '</span>' +
-          '<span class="slot-label">' + state.slots[t.slotIndex].label + '</span>' +
-          '<span class="badge ' + t.status + '">' + labelFor(t.status) + '</span>';
-        if (t.status === 'llamado') {
-          var btn = document.createElement('button');
-          btn.className = 'btn-ghost small';
-          btn.type = 'button';
-          btn.textContent = 'Marcar atendido';
-          btn.addEventListener('click', function () {
-            t.status = 'atendido';
-            logEvent('Turno #' + t.number + ' atendido.');
-            renderAll();
-          });
-          row.appendChild(btn);
-        }
-        list.appendChild(row);
-      });
+      var level = trafficLevel(sede.slots[bestIndex], counts[bestIndex]);
+      recEl.textContent = 'Mejor opción ahora: ' + sede.slots[bestIndex].label + ' (' + level.label.toLowerCase() + ').';
     }
-    renderTimeline('timeline-negocio');
+    var list = document.getElementById('horario-stats-list');
+    list.innerHTML = '';
+    sede.slots.forEach(function (slot, i) {
+      var level = trafficLevel(slot, counts[i]);
+      var row = document.createElement('div');
+      row.className = 'slot-row';
+      row.innerHTML =
+        '<span class="slot-row-label">' + slot.label + '</span>' +
+        '<span class="muted-text" style="margin:0;">' + (slot.enabled ? counts[i] + '/' + slot.capacity : '') + '</span>' +
+        '<span class="badge ' + level.cls + '">' + level.label + '</span>';
+      list.appendChild(row);
+    });
   }
 
-  function labelFor(status) {
-    if (status === 'esperando') return 'Esperando';
-    if (status === 'llamado') return 'Llamado';
-    return 'Atendido';
+  function renderClienteAuth() {
+    var stepRegistro = document.getElementById('auth-step-registro');
+    var stepVerificacion = document.getElementById('auth-step-verificacion');
+    if (!state.clienteAuth.registrado) {
+      stepRegistro.classList.remove('hidden');
+      stepVerificacion.classList.add('hidden');
+    } else {
+      stepRegistro.classList.add('hidden');
+      stepVerificacion.classList.remove('hidden');
+      document.getElementById('auth-celular-mostrado').textContent = state.clienteAuth.celular;
+    }
   }
 
-  function escapeHtml(s) {
-    var div = document.createElement('div');
-    div.textContent = s;
-    return div.innerHTML;
+  function renderMisTurnos() {
+    var el = document.getElementById('mis-turnos-list');
+    el.innerHTML = '';
+    if (state.misTurnosHistorial.length === 0) {
+      el.innerHTML = '<div class="empty-state">Todavía no tienes turnos anteriores.</div>';
+      return;
+    }
+    state.misTurnosHistorial.forEach(function (entry) {
+      var row = document.createElement('div');
+      row.className = 'historial-item';
+      row.innerHTML = '<span class="time">' + entry.time + '</span><span>#' + entry.number + ' · ' + escapeHtml(entry.sede) + ' — ' + entry.resultado + '</span>';
+      el.appendChild(row);
+    });
   }
 
+  // ============================================================
+  // 6. RENDERIZADO — panel del negocio
+  // ============================================================
   function renderNegocioAuth() {
     var login = document.getElementById('negocio-login');
     var dashboard = document.getElementById('negocio-dashboard');
@@ -782,48 +991,11 @@
     }
   }
 
-  function renderSlotsManager() {
-    var el = document.getElementById('slots-manager');
-    el.innerHTML = '';
-    state.slots.forEach(function (slot, i) {
-      var row = document.createElement('div');
-      row.className = 'slot-row';
-      row.innerHTML =
-        '<span class="slot-row-label">' + slot.label + '</span>' +
-        '<span class="badge ' + (slot.enabled ? 'activa' : 'inactiva') + '">' + (slot.enabled ? 'Activa' : 'Inactiva') + '</span>';
-      var btn = document.createElement('button');
-      btn.className = 'btn-ghost small';
-      btn.type = 'button';
-      btn.textContent = slot.enabled ? 'Deshabilitar' : 'Habilitar';
-      btn.addEventListener('click', function () {
-        slot.enabled = !slot.enabled;
-        logEvent('Franja ' + slot.label + (slot.enabled ? ' habilitada.' : ' deshabilitada.'));
-        renderAll();
-      });
-      row.appendChild(btn);
-      el.appendChild(row);
-    });
-  }
-
-  function renderHistorial() {
-    var el = document.getElementById('historial-list');
-    el.innerHTML = '';
-    if (state.history.length === 0) {
-      el.innerHTML = '<div class="empty-state">Sin actividad todavía.</div>';
-      return;
-    }
-    state.history.forEach(function (entry) {
-      var row = document.createElement('div');
-      row.className = 'historial-item';
-      row.innerHTML = '<span class="time">' + entry.time + '</span><span>' + escapeHtml(entry.text) + '</span>';
-      el.appendChild(row);
-    });
-  }
-
   function renderNegocioStatus() {
+    var sede = state.sedeData[state.negocioSedeActual];
     var text = document.getElementById('negocio-status-text');
     var btn = document.getElementById('btn-toggle-negocio');
-    if (state.negocioAbierto) {
+    if (sede.negocioAbierto) {
       text.textContent = 'Negocio abierto — los clientes pueden sacar turnos.';
       btn.textContent = 'Cerrar negocio';
     } else {
@@ -832,18 +1004,293 @@
     }
   }
 
+  function renderNegocioStats() {
+    var sede = state.sedeData[state.negocioSedeActual];
+    document.getElementById('stat-espera').textContent = sede.tickets.filter(function (t) { return t.status === 'esperando'; }).length;
+    document.getElementById('stat-llamados').textContent = sede.tickets.filter(function (t) { return t.status === 'llamado'; }).length;
+    document.getElementById('stat-atendidos').textContent = sede.tickets.filter(function (t) { return t.status === 'atendido'; }).length;
+    document.getElementById('stat-noshow').textContent = sede.tickets.filter(function (t) { return t.status === 'no_show'; }).length;
+  }
+
+  function renderAgentes() {
+    var sede = state.sedeData[state.negocioSedeActual];
+    var el = document.getElementById('agentes-panel');
+    el.innerHTML = '';
+    sede.agentes.forEach(function (agente) {
+      var card = document.createElement('div');
+      card.className = 'agente-card';
+      var ticket = sede.tickets.find(function (t) { return t.id === agente.currentTicketId; });
+      var html = '<div class="agente-card-header"><span class="agente-name">' + agente.nombre + '</span></div>';
+      if (ticket) {
+        html +=
+          '<div class="agente-ticket-info">#' + ticket.number + ' · ' + escapeHtml(ticket.name) +
+          (ticket.prioridad ? ' ⭐' : '') + (ticket.checkIn ? ' · en sitio' : '') + '</div>' +
+          '<div class="elapsed-timer" id="agente-timer-' + agente.id + '"></div>' +
+          '<div class="agente-actions"></div>';
+      } else {
+        html += '<div class="agente-empty">Sin turno actual.</div><div class="agente-actions"></div>';
+      }
+      card.innerHTML = html;
+      var actions = card.querySelector('.agente-actions');
+      if (ticket) {
+        var btnAtendido = document.createElement('button');
+        btnAtendido.className = 'btn-primary';
+        btnAtendido.type = 'button';
+        btnAtendido.textContent = 'Marcar atendido';
+        btnAtendido.addEventListener('click', function () { marcarAtendido(sede, agente); renderAll(); });
+        var btnNoShow = document.createElement('button');
+        btnNoShow.className = 'btn-ghost';
+        btnNoShow.type = 'button';
+        btnNoShow.textContent = 'No se presentó';
+        btnNoShow.addEventListener('click', function () { marcarNoShow(sede, agente); renderAll(); });
+        actions.appendChild(btnAtendido);
+        actions.appendChild(btnNoShow);
+      } else {
+        var btnLlamar = document.createElement('button');
+        btnLlamar.className = 'btn-primary';
+        btnLlamar.type = 'button';
+        btnLlamar.textContent = 'Llamar siguiente';
+        btnLlamar.disabled = !sede.tickets.some(function (t) { return t.status === 'esperando'; });
+        btnLlamar.addEventListener('click', function () { llamarSiguiente(sede, agente); renderAll(); });
+        actions.appendChild(btnLlamar);
+      }
+      el.appendChild(card);
+    });
+    updateAgenteTimers();
+  }
+
+  function updateAgenteTimers() {
+    if (!state.negocioAuth) return;
+    var sede = state.sedeData[state.negocioSedeActual];
+    sede.agentes.forEach(function (agente) {
+      var el = document.getElementById('agente-timer-' + agente.id);
+      if (!el) return;
+      var ticket = sede.tickets.find(function (t) { return t.id === agente.currentTicketId; });
+      if (!ticket || !ticket.calledAt) { el.textContent = ''; el.classList.remove('overdue'); return; }
+      var secs = Math.floor((Date.now() - ticket.calledAt) / 1000);
+      el.textContent = 'Llamado hace ' + formatSecs(secs);
+      el.classList.toggle('overdue', secs >= NO_SHOW_WARNING_SECONDS);
+    });
+  }
+
+  function renderResumenAdmin() {
+    var sede = state.sedeData[state.negocioSedeActual];
+    var el = document.getElementById('resumen-admin');
+    var enEspera = sede.tickets.filter(function (t) { return t.status === 'esperando'; }).length;
+    var llenas = 0, evaluadas = 0, totalCount = 0, totalCap = 0;
+    sede.slots.forEach(function (slot, i) {
+      if (!slot.enabled) return;
+      var count = sede.tickets.filter(function (t) { return t.slotIndex === i && t.status !== 'atendido' && t.status !== 'no_show'; }).length;
+      totalCount += count;
+      totalCap += slot.capacity;
+      evaluadas++;
+      if (trafficLevel(slot, count).cls === 'lleno') llenas++;
+    });
+    var nivel;
+    if (evaluadas === 0) {
+      nivel = { cls: 'no-disponible', label: 'Sin franjas activas' };
+    } else {
+      var ratio = totalCount / totalCap;
+      if (ratio < 0.5) nivel = { cls: 'poco', label: 'Tráfico bajo' };
+      else if (ratio < 1) nivel = { cls: 'medio', label: 'Tráfico medio' };
+      else nivel = { cls: 'lleno', label: 'Tráfico alto' };
+    }
+    var frase = enEspera + (enEspera === 1 ? ' persona esperando ahora' : ' personas esperando ahora');
+    if (llenas > 0) frase += ' · ' + llenas + (llenas === 1 ? ' franja llena' : ' franjas llenas');
+    el.innerHTML =
+      '<div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">' +
+      '<span class="badge ' + nivel.cls + '" style="font-size:0.85rem; padding:6px 14px;">' + nivel.label + '</span>' +
+      '<span class="muted-text" style="margin:0;">' + frase + '</span>' +
+      '</div>';
+  }
+
+  function renderTraficoTiempoReal() {
+    var sede = state.sedeData[state.negocioSedeActual];
+    var el = document.getElementById('trafico-tiempo-real');
+    var alertEl = document.getElementById('alertas-saturacion');
+    var resumenEl = document.getElementById('trafico-resumen');
+    el.innerHTML = '';
+    var llenas = [];
+    var maxIdx = -1, maxCount = -1, minIdx = -1, minCount = Infinity;
+    sede.slots.forEach(function (slot, i) {
+      var count = sede.tickets.filter(function (t) { return t.slotIndex === i && t.status !== 'atendido' && t.status !== 'no_show'; }).length;
+      var level = trafficLevel(slot, count);
+      if (level.cls === 'lleno') llenas.push(slot.label);
+      if (slot.enabled) {
+        if (count > maxCount) { maxCount = count; maxIdx = i; }
+        if (count < minCount) { minCount = count; minIdx = i; }
+      }
+      var pct = Math.min(100, Math.round((count / slot.capacity) * 100));
+      var row = document.createElement('div');
+      row.className = 'traffic-bar-row';
+      row.innerHTML =
+        '<span class="traffic-bar-label">' + slot.label + '</span>' +
+        '<span class="traffic-bar-track"><span class="traffic-bar-fill ' + level.cls + '" style="width:' + pct + '%;"></span></span>' +
+        '<span class="traffic-bar-count">' + count + '/' + slot.capacity + '</span>';
+      el.appendChild(row);
+    });
+    if (maxIdx === -1) {
+      resumenEl.textContent = 'No hay franjas activas en este momento.';
+    } else {
+      resumenEl.textContent = 'Ahora hay más movimiento en ' + sede.slots[maxIdx].label + ' (' + maxCount + ') y menos en ' + sede.slots[minIdx].label + ' (' + minCount + ').';
+    }
+    if (llenas.length > 0) {
+      alertEl.className = 'notice warning';
+      alertEl.style.marginBottom = '14px';
+      alertEl.textContent = '⚠ Franjas llenas: ' + llenas.join(', ');
+    } else {
+      alertEl.className = '';
+      alertEl.textContent = '';
+      alertEl.style.marginBottom = '0';
+    }
+  }
+
+  function renderHistorico() {
+    var sede = state.sedeData[state.negocioSedeActual];
+    document.getElementById('stat-hist-creados').textContent = sede.stats.creados;
+    document.getElementById('stat-hist-atendidos').textContent = sede.stats.atendidos;
+    document.getElementById('stat-hist-cancelados').textContent = sede.stats.cancelados;
+    document.getElementById('stat-hist-noshow').textContent = sede.stats.noShows;
+    var tasasEl = document.getElementById('historico-tasas');
+    var llamadosTotal = sede.stats.atendidos + sede.stats.noShows;
+    if (llamadosTotal === 0) {
+      tasasEl.innerHTML = '<span class="muted-text" style="margin:0;">Todavía no se ha llamado a ningún turno.</span>';
+    } else {
+      var rate = sede.stats.atendidos / llamadosTotal;
+      var level = attendanceLevel(rate);
+      var pct = Math.round(rate * 100);
+      tasasEl.innerHTML =
+        '<span class="badge ' + level.cls + '">' + level.label + '</span>' +
+        '<span class="muted-text" style="margin:0;">' + pct + '% de los turnos llamados fueron atendidos (' + sede.stats.noShows + ' no se presentaron).</span>';
+    }
+    var maxIdx = 0, minIdx = 0;
+    sede.slotLifetime.forEach(function (v, i) {
+      if (v > sede.slotLifetime[maxIdx]) maxIdx = i;
+      if (v < sede.slotLifetime[minIdx]) minIdx = i;
+    });
+    document.getElementById('stat-hist-pico').textContent = sede.slots[maxIdx].label + ' (' + sede.slotLifetime[maxIdx] + ')';
+    document.getElementById('stat-hist-tranquila').textContent = sede.slots[minIdx].label + ' (' + sede.slotLifetime[minIdx] + ')';
+  }
+
+  function renderSlotsManager() {
+    var sede = state.sedeData[state.negocioSedeActual];
+    var el = document.getElementById('slots-manager');
+    el.innerHTML = '';
+    sede.slots.forEach(function (slot, i) {
+      var row = document.createElement('div');
+      row.className = 'slot-row';
+      row.innerHTML =
+        '<span class="slot-row-label">' + slot.label + '</span>' +
+        '<input type="number" min="1" max="20" class="slot-capacity-input" value="' + slot.capacity + '">' +
+        '<span class="badge ' + (slot.enabled ? 'activa' : 'inactiva') + '">' + (slot.enabled ? 'Activa' : 'Inactiva') + '</span>';
+      var capInput = row.querySelector('.slot-capacity-input');
+      capInput.addEventListener('change', function () {
+        var val = parseInt(capInput.value, 10);
+        if (isNaN(val) || val < 1) val = 1;
+        slot.capacity = val;
+        logEvent(sede, 'Cupo de franja ' + slot.label + ' ajustado a ' + val + '.');
+        renderAll();
+      });
+      var btn = document.createElement('button');
+      btn.className = 'btn-ghost small';
+      btn.type = 'button';
+      btn.textContent = slot.enabled ? 'Deshabilitar' : 'Habilitar';
+      btn.addEventListener('click', function () {
+        slot.enabled = !slot.enabled;
+        logEvent(sede, 'Franja ' + slot.label + (slot.enabled ? ' habilitada.' : ' deshabilitada.'));
+        renderAll();
+      });
+      row.appendChild(btn);
+      el.appendChild(row);
+    });
+  }
+
+  function renderTicketsList() {
+    var sede = state.sedeData[state.negocioSedeActual];
+    var list = document.getElementById('tickets-list');
+    list.innerHTML = '';
+    var ordered = sede.tickets.slice().sort(function (a, b) {
+      if (a.slotIndex !== b.slotIndex) return a.slotIndex - b.slotIndex;
+      return a.id - b.id;
+    });
+    if (ordered.length === 0) {
+      list.innerHTML = '<div class="empty-state">No hay turnos registrados todavía.</div>';
+      return;
+    }
+    ordered.forEach(function (t) {
+      var row = document.createElement('div');
+      row.className = 'ticket-row';
+      var agente = t.agenteId ? sede.agentes.find(function (a) { return a.id === t.agenteId; }) : null;
+      row.innerHTML =
+        '<span class="num">#' + t.number + '</span>' +
+        '<span class="name">' + escapeHtml(t.name) + (t.id === state.myTicketId ? ' (tú)' : '') + (t.prioridad ? ' ⭐' : '') + '</span>' +
+        '<span class="slot-label">' + sede.slots[t.slotIndex].label + '</span>' +
+        (t.checkIn ? '<span class="badge activa">En sitio</span>' : '') +
+        '<span class="badge ' + t.status + '">' + labelForEstado(t.status) + '</span>' +
+        (agente ? '<span class="muted-text" style="margin:0;font-size:0.78rem;">' + escapeHtml(agente.nombre) + '</span>' : '');
+      list.appendChild(row);
+    });
+  }
+
+  function renderHistorial() {
+    var sede = state.sedeData[state.negocioSedeActual];
+    var el = document.getElementById('historial-list');
+    el.innerHTML = '';
+    if (sede.history.length === 0) {
+      el.innerHTML = '<div class="empty-state">Sin actividad todavía.</div>';
+      return;
+    }
+    sede.history.forEach(function (entry) {
+      var row = document.createElement('div');
+      row.className = 'historial-item';
+      row.innerHTML = '<span class="time">' + entry.time + '</span><span>' + escapeHtml(entry.text) + '</span>';
+      el.appendChild(row);
+    });
+  }
+
   function renderAll() {
     renderCliente();
     renderNegocioAuth();
     if (state.negocioAuth) {
-      renderNegocio();
       renderNegocioStatus();
+      renderResumenAdmin();
+      renderNegocioStats();
+      renderAgentes();
+      renderTraficoTiempoReal();
+      renderHistorico();
       renderSlotsManager();
+      renderTicketsList();
       renderHistorial();
     }
   }
 
-  // ---- Events ----
+  // ============================================================
+  // 7. EXPORTAR REPORTE
+  // ============================================================
+  function generarYDescargarReporte() {
+    var sede = state.sedeData[state.negocioSedeActual];
+    var csv = generarReporteCSV(sede);
+    var filename = 'reporte-filacero-' + state.negocioSedeActual + '.csv';
+    var fallback = function () {
+      var ta = document.getElementById('reporte-output');
+      ta.value = csv;
+      ta.classList.remove('hidden');
+      ta.focus();
+      ta.select();
+    };
+    if (window.claude && typeof window.claude.use === 'function') {
+      window.claude.use('downloads').then(function (downloads) {
+        if (!downloads) { fallback(); return; }
+        downloads.save({ filename: filename, data: csv }).catch(fallback);
+      }).catch(fallback);
+    } else {
+      fallback();
+    }
+  }
+
+  // ============================================================
+  // 8. EVENTOS
+  // ============================================================
   document.querySelectorAll('.switch-btn').forEach(function (btn) {
     btn.addEventListener('click', function () {
       document.querySelectorAll('.switch-btn').forEach(function (b) { b.classList.remove('active'); });
@@ -855,22 +1302,72 @@
     });
   });
 
+  document.getElementById('select-sede-cliente').addEventListener('change', function () {
+    state.clienteSedeActual = this.value;
+    renderAll();
+  });
+
+  document.getElementById('select-sede-negocio').addEventListener('change', function () {
+    state.negocioSedeActual = this.value;
+    renderAll();
+  });
+
   document.getElementById('btn-tomar-turno').addEventListener('click', function () {
-    var name = document.getElementById('input-nombre').value;
+    var sedeId = document.getElementById('select-sede-cliente').value;
+    var name = state.clienteAuth.nombre;
+    var prioridad = document.getElementById('chk-prioridad').checked;
     var slotValue = document.getElementById('select-horario').value;
     var forcedSlot = slotValue === 'auto' ? undefined : parseInt(slotValue, 10);
-    var ticket = addTicket(name, forcedSlot, true);
-    logEvent('Turno #' + ticket.number + ' asignado a ' + ticket.name + ' (' + state.slots[ticket.slotIndex].label + ').');
+    var ticket = addTicket(sedeId, name, forcedSlot, true, prioridad);
+    var sede = state.sedeData[sedeId];
+    logEvent(sede, 'Turno #' + ticket.number + ' asignado a ' + ticket.name + ' (' + sede.slots[ticket.slotIndex].label + ')' + (prioridad ? ' · prioritario' : '') + '.');
     renderAll();
   });
 
   document.getElementById('btn-cancelar').addEventListener('click', function () {
-    var myTicket = state.tickets.find(function (t) { return t.id === state.myTicketId; });
-    if (myTicket) logEvent('Turno #' + myTicket.number + ' cancelado por el cliente.');
-    state.tickets = state.tickets.filter(function (t) { return t.id !== state.myTicketId; });
+    var ticket = getMyTicket();
+    if (ticket) {
+      var sede = state.sedeData[state.myTicketSedeId];
+      sede.stats.cancelados++;
+      logEvent(sede, 'Turno #' + ticket.number + ' cancelado por el cliente.');
+      state.misTurnosHistorial.unshift({ sede: sedeNombre(state.myTicketSedeId), number: ticket.number, resultado: 'Cancelado', time: nowTimeLabel() });
+      sede.tickets = sede.tickets.filter(function (t) { return t.id !== ticket.id; });
+    }
     state.myTicketId = null;
-    document.getElementById('input-nombre').value = '';
+    state.myTicketSedeId = null;
     document.getElementById('select-horario').value = 'auto';
+    document.getElementById('chk-prioridad').checked = false;
+    renderAll();
+  });
+
+  document.getElementById('btn-checkin').addEventListener('click', function () {
+    var ticket = getMyTicket();
+    if (ticket && !ticket.checkIn) {
+      ticket.checkIn = true;
+      logEvent(state.sedeData[state.myTicketSedeId], 'Turno #' + ticket.number + ' confirmó su llegada.');
+      renderAll();
+    }
+  });
+
+  document.getElementById('btn-reprogramar').addEventListener('click', function () {
+    var ticket = getMyTicket();
+    var errorEl = document.getElementById('reprogramar-error');
+    if (!ticket) return;
+    var sede = state.sedeData[state.myTicketSedeId];
+    var nuevoIndex = parseInt(document.getElementById('select-reprogramar').value, 10);
+    var oldLabel = sede.slots[ticket.slotIndex].label;
+    if (reprogramarTicket(sede, ticket, nuevoIndex)) {
+      errorEl.classList.add('hidden');
+      logEvent(sede, 'Turno #' + ticket.number + ' reprogramado de ' + oldLabel + ' a ' + sede.slots[nuevoIndex].label + '.');
+      renderAll();
+    } else {
+      errorEl.textContent = 'Esa franja no está disponible.';
+      errorEl.classList.remove('hidden');
+    }
+  });
+
+  document.getElementById('btn-archivar-turno').addEventListener('click', function () {
+    archivarMiTurno();
     renderAll();
   });
 
@@ -882,7 +1379,7 @@
       state.negocioAuth = true;
       error.classList.add('hidden');
       document.getElementById('input-admin-pass').value = '';
-      logEvent('Sesión iniciada en el panel de negocio.');
+      logEvent(state.sedeData[state.negocioSedeActual], 'Sesión iniciada en el panel de negocio.');
       renderAll();
     } else {
       error.classList.remove('hidden');
@@ -890,7 +1387,7 @@
   });
 
   document.getElementById('btn-logout-negocio').addEventListener('click', function () {
-    logEvent('Sesión cerrada.');
+    logEvent(state.sedeData[state.negocioSedeActual], 'Sesión cerrada.');
     state.negocioAuth = false;
     document.getElementById('input-admin-user').value = '';
     document.getElementById('input-admin-pass').value = '';
@@ -898,36 +1395,88 @@
   });
 
   document.getElementById('btn-toggle-negocio').addEventListener('click', function () {
-    state.negocioAbierto = !state.negocioAbierto;
-    logEvent('Negocio ' + (state.negocioAbierto ? 'abierto.' : 'cerrado.'));
+    var sede = state.sedeData[state.negocioSedeActual];
+    sede.negocioAbierto = !sede.negocioAbierto;
+    logEvent(sede, 'Negocio ' + (sede.negocioAbierto ? 'abierto.' : 'cerrado.'));
     renderAll();
-  });
-
-  document.getElementById('btn-llamar').addEventListener('click', function () {
-    var ordered = activeOrdered().filter(function (t) { return t.status === 'esperando'; });
-    if (ordered.length > 0) {
-      ordered[0].status = 'llamado';
-      logEvent('Turno #' + ordered[0].number + ' llamado.');
-      renderAll();
-    }
   });
 
   document.getElementById('btn-simular').addEventListener('click', function () {
-    var names = ['Cliente anónimo', 'Mateo', 'Isabella', 'Daniel', 'Laura', 'Santiago'];
-    var ticket = addTicket(names[Math.floor(Math.random() * names.length)], undefined, false);
-    logEvent('Turno #' + ticket.number + ' simulado (' + state.slots[ticket.slotIndex].label + ').');
+    var sedeId = state.negocioSedeActual;
+    var sede = state.sedeData[sedeId];
+    var nombres = ['Cliente anónimo', 'Mateo', 'Isabella', 'Daniel', 'Laura', 'Santiago'];
+    var ticket = addTicket(sedeId, nombres[Math.floor(Math.random() * nombres.length)], undefined, false, false);
+    logEvent(sede, 'Turno #' + ticket.number + ' simulado (' + sede.slots[ticket.slotIndex].label + ').');
     renderAll();
   });
+
+  document.getElementById('btn-generar-reporte').addEventListener('click', generarYDescargarReporte);
+
+  document.getElementById('btn-enviar-codigo').addEventListener('click', function () {
+    var nombre = document.getElementById('input-auth-nombre').value.trim();
+    var celular = document.getElementById('input-auth-celular').value.trim();
+    var errorEl = document.getElementById('auth-registro-error');
+    var digitos = celular.replace(/\D/g, '');
+    if (digitos.length < 7) {
+      errorEl.textContent = 'Ingresa un número de celular válido.';
+      errorEl.classList.remove('hidden');
+      return;
+    }
+    errorEl.classList.add('hidden');
+    state.clienteAuth.nombre = nombre;
+    state.clienteAuth.celular = celular;
+    state.clienteAuth.registrado = true;
+    document.getElementById('input-auth-codigo').value = '';
+    document.getElementById('auth-codigo-error').classList.add('hidden');
+    renderAll();
+  });
+
+  document.getElementById('btn-confirmar-codigo').addEventListener('click', function () {
+    var codigo = document.getElementById('input-auth-codigo').value.trim();
+    var errorEl = document.getElementById('auth-codigo-error');
+    if (codigo === '1234') {
+      state.clienteAuth.verificado = true;
+      errorEl.classList.add('hidden');
+      renderAll();
+    } else {
+      errorEl.classList.remove('hidden');
+    }
+  });
+
+  function resetClienteAuth() {
+    state.clienteAuth = { registrado: false, verificado: false, nombre: '', celular: '' };
+    document.getElementById('input-auth-nombre').value = '';
+    document.getElementById('input-auth-celular').value = '';
+    document.getElementById('input-auth-codigo').value = '';
+    document.getElementById('auth-registro-error').classList.add('hidden');
+    document.getElementById('auth-codigo-error').classList.add('hidden');
+    renderAll();
+  }
+  document.getElementById('btn-cambiar-numero').addEventListener('click', resetClienteAuth);
+  document.getElementById('btn-cambiar-numero-2').addEventListener('click', resetClienteAuth);
 
   document.getElementById('btn-reset').addEventListener('click', function () {
-    seed();
-    document.getElementById('input-nombre').value = '';
+    resetAll();
+    document.getElementById('input-auth-nombre').value = '';
+    document.getElementById('input-auth-celular').value = '';
+    document.getElementById('input-auth-codigo').value = '';
+    document.getElementById('auth-registro-error').classList.add('hidden');
+    document.getElementById('auth-codigo-error').classList.add('hidden');
     document.getElementById('select-horario').value = 'auto';
+    document.getElementById('chk-prioridad').checked = false;
+    document.getElementById('select-sede-cliente').value = SEDES_CONFIG[0].id;
+    document.getElementById('select-sede-negocio').value = SEDES_CONFIG[0].id;
+    document.getElementById('reporte-output').classList.add('hidden');
+    document.getElementById('reporte-output').value = '';
     renderAll();
   });
 
-  seed();
+  // ============================================================
+  // 9. INICIALIZACIÓN
+  // ============================================================
+  resetAll();
   renderAll();
+  setInterval(updateAgenteTimers, 1000);
 })();
 </script>
 </body>
