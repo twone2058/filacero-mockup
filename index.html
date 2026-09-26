@@ -25,6 +25,9 @@
     --font-display: 'Space Grotesk', sans-serif;
     --font-body: 'Inter', sans-serif;
   }
+  /* This app keeps one deliberate light theme regardless of system
+     preference, so the dark-mode and data-theme blocks intentionally
+     repeat the same tokens. */
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) { color-scheme: light; }
   }
@@ -59,11 +62,7 @@
     z-index: 5;
   }
   .brand { display: flex; align-items: center; gap: 10px; }
-  .brand-mark {
-    width: 10px; height: 10px; border-radius: 50%;
-    background: var(--amber);
-    box-shadow: 0 0 0 4px var(--amber-soft);
-  }
+  .brand-logo { flex-shrink: 0; display: block; }
   .brand-name {
     font-family: var(--font-display);
     font-weight: 700;
@@ -126,7 +125,7 @@
   .muted-text { color: var(--muted); margin: 0 0 18px; font-size: 0.92rem; }
 
   label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 20px; }
-  input[type="text"], input[type="password"] {
+  input[type="text"], input[type="password"], select {
     display: block;
     width: 100%;
     margin-top: 8px;
@@ -136,8 +135,17 @@
     padding: 12px 14px;
     color: var(--text);
     font-size: 0.95rem;
+    appearance: none;
+    -webkit-appearance: none;
   }
-  input[type="text"]:focus, input[type="password"]:focus { outline: 2px solid var(--teal); outline-offset: 1px; }
+  select {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='%2364748B' d='M5.5 7.5l4.5 4.5 4.5-4.5'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+  }
+  select option:disabled { color: var(--grey); }
+  input[type="text"]:focus, input[type="password"]:focus, select:focus { outline: 2px solid var(--teal); outline-offset: 1px; }
 
   .login-error {
     background: rgba(219,68,55,0.10);
@@ -187,6 +195,7 @@
 
   .hidden { display: none !important; }
 
+  /* Ticket board */
   .ticket-board {
     display: flex;
     flex-direction: column;
@@ -242,6 +251,7 @@
   }
   .banner.done { background: var(--teal-soft); border-color: var(--teal); color: var(--teal); animation: none; }
 
+  /* Timeline / distribución */
   .timeline {
     display: flex;
     gap: 10px;
@@ -269,6 +279,7 @@
   .dot.llamado { background: var(--amber); }
   .dot.atendido { background: var(--grey); }
 
+  /* Negocio */
   .stats-panel {
     display: grid;
     grid-template-columns: repeat(3, 1fr) auto;
@@ -303,7 +314,42 @@
   .badge.esperando { background: var(--teal-soft); color: var(--teal); }
   .badge.llamado { background: var(--amber-soft); color: var(--amber); }
   .badge.atendido { background: var(--grey-soft); color: var(--muted); }
+  .badge.activa { background: var(--teal-soft); color: var(--teal); }
+  .badge.inactiva { background: var(--grey-soft); color: var(--muted); }
   .empty-state { color: var(--muted); font-size: 0.9rem; padding: 20px 4px; }
+
+  .notice {
+    background: var(--grey-soft);
+    border: 1px solid var(--grey);
+    color: var(--text);
+    padding: 13px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.92rem;
+  }
+
+  .slots-manager, .historial-list { display: flex; flex-direction: column; gap: 8px; }
+  .slot-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 10px 14px;
+  }
+  .slot-row .slot-row-label { flex: 1; font-size: 0.9rem; }
+
+  .historial-list { max-height: 220px; overflow-y: auto; padding-right: 4px; }
+  .historial-item {
+    display: flex;
+    gap: 10px;
+    font-size: 0.85rem;
+    color: var(--muted);
+    padding: 6px 2px;
+    border-bottom: 1px solid var(--line);
+  }
+  .historial-item:last-child { border-bottom: none; }
+  .historial-item .time { color: var(--text); font-weight: 600; min-width: 48px; flex-shrink: 0; }
 
   footer {
     text-align: center;
@@ -334,7 +380,19 @@
 <div id="app">
   <header class="topbar">
     <div class="brand">
-      <span class="brand-mark"></span>
+      <svg class="brand-logo" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+        <defs>
+          <linearGradient id="fcGrad" x1="0" y1="0" x2="34" y2="34" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#E69A3A"></stop>
+            <stop offset="1" stop-color="#1E8F82"></stop>
+          </linearGradient>
+        </defs>
+        <rect width="34" height="34" rx="10" fill="url(#fcGrad)"></rect>
+        <text x="6.5" y="24" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="17" fill="#FFFFFF">F</text>
+        <circle cx="24" cy="17" r="6" fill="none" stroke="#FFFFFF" stroke-width="2.2"></circle>
+        <line x1="24" y1="17" x2="24" y2="12.8" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"></line>
+        <line x1="24" y1="17" x2="27.2" y2="17" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"></line>
+      </svg>
       <span class="brand-name">FilaCero</span>
     </div>
     <nav class="view-switch">
@@ -344,14 +402,23 @@
   </header>
 
   <main>
+    <!-- Vista cliente -->
     <section id="view-cliente" class="view active">
       <div id="cliente-pretake" class="panel">
         <h1>Saca tu turno virtual</h1>
         <p class="lead">Reserva tu lugar sin hacer fila. Te asignamos una franja horaria y solo debes llegar cerca de tu turno.</p>
-        <label>Tu nombre (opcional)
-          <input type="text" id="input-nombre" placeholder="Ej. Andrés" maxlength="30">
-        </label>
-        <button id="btn-tomar-turno" class="btn-primary" type="button">Sacar turno virtual</button>
+        <div id="cliente-form-fields">
+          <label>Tu nombre (opcional)
+            <input type="text" id="input-nombre" placeholder="Ej. Andrés" maxlength="30">
+          </label>
+          <label>Horario preferido
+            <select id="select-horario">
+              <option value="auto">Lo antes posible (recomendado)</option>
+            </select>
+          </label>
+          <button id="btn-tomar-turno" class="btn-primary" type="button">Sacar turno virtual</button>
+        </div>
+        <div id="cliente-cerrado-msg" class="notice hidden">El negocio está cerrado en este momento. Intenta más tarde.</div>
       </div>
 
       <div id="cliente-ticket" class="panel hidden">
@@ -381,6 +448,7 @@
       </div>
     </section>
 
+    <!-- Vista negocio -->
     <section id="view-negocio" class="view">
       <div id="negocio-login" class="panel">
         <h1>Acceso del negocio</h1>
@@ -396,6 +464,16 @@
       </div>
 
       <div id="negocio-dashboard" class="hidden" style="display: contents;">
+        <div class="panel">
+          <div class="negocio-header">
+            <div>
+              <h2>Estado del negocio</h2>
+              <p class="muted-text" id="negocio-status-text" style="margin:0;">Negocio abierto — los clientes pueden sacar turnos.</p>
+            </div>
+            <button id="btn-toggle-negocio" class="btn-ghost small" type="button">Cerrar negocio</button>
+          </div>
+        </div>
+
         <div class="panel stats-panel">
           <div class="stat"><span class="stat-value" id="stat-espera">0</span><span class="stat-label">En espera</span></div>
           <div class="stat"><span class="stat-value" id="stat-llamados">0</span><span class="stat-label">Llamados</span></div>
@@ -410,6 +488,12 @@
         </div>
 
         <div class="panel">
+          <h2>Franjas horarias</h2>
+          <p class="muted-text">Habilita o deshabilita franjas para controlar la afluencia.</p>
+          <div id="slots-manager" class="slots-manager"></div>
+        </div>
+
+        <div class="panel">
           <div class="list-header">
             <h2>Turnos</h2>
             <div style="display:flex; gap:8px;">
@@ -418,6 +502,12 @@
             </div>
           </div>
           <div id="tickets-list" class="tickets-list"></div>
+        </div>
+
+        <div class="panel">
+          <h2>Historial</h2>
+          <p class="muted-text">Actividad reciente del negocio.</p>
+          <div id="historial-list" class="historial-list"></div>
         </div>
       </div>
     </section>
@@ -445,7 +535,8 @@
       var h2 = Math.floor((totalMin + SLOT_MINUTES) / 60);
       var m2 = (totalMin + SLOT_MINUTES) % 60;
       slots.push({
-        label: pad(h) + ':' + pad(m) + '–' + pad(h2) + ':' + pad(m2)
+        label: pad(h) + ':' + pad(m) + '–' + pad(h2) + ':' + pad(m2),
+        enabled: true
       });
     }
     return slots;
@@ -458,8 +549,17 @@
     nextNumber: 41,
     nextId: 1,
     myTicketId: null,
-    negocioAuth: false
+    negocioAuth: false,
+    negocioAbierto: true,
+    history: []
   };
+
+  function logEvent(text) {
+    var now = new Date();
+    var time = pad(now.getHours()) + ':' + pad(now.getMinutes());
+    state.history.unshift({ time: time, text: text });
+    if (state.history.length > 50) state.history.pop();
+  }
 
   function seed() {
     state.tickets = [];
@@ -467,6 +567,9 @@
     state.nextId = 1;
     state.myTicketId = null;
     state.negocioAuth = false;
+    state.negocioAbierto = true;
+    state.history = [];
+    state.slots.forEach(function (s) { s.enabled = true; });
     var seedNames = ['Camila', 'Jorge', 'Valentina', 'Anónimo', 'Sara'];
     var seedSlots = [0, 0, 1, 1, 2];
     for (var i = 0; i < seedNames.length; i++) {
@@ -489,15 +592,16 @@
   }
 
   function pickSlot() {
-    var best = 0, bestCount = Infinity;
+    var best = -1, bestCount = Infinity;
     for (var i = 0; i < state.slots.length; i++) {
+      if (!state.slots[i].enabled) continue;
       var count = state.tickets.filter(function (t) {
         return t.slotIndex === i && t.status !== 'atendido';
       }).length;
       if (count < bestCount) { bestCount = count; best = i; }
       if (count < SLOT_CAPACITY) return i;
     }
-    return best;
+    return best === -1 ? 0 : best;
   }
 
   function activeOrdered() {
@@ -517,6 +621,7 @@
     return ordered.length;
   }
 
+  // ---- Rendering ----
   function renderTimeline(containerId) {
     var el = document.getElementById(containerId);
     el.innerHTML = '';
@@ -540,14 +645,45 @@
     });
   }
 
+  function renderSlotOptions() {
+    var select = document.getElementById('select-horario');
+    while (select.options.length > 1) select.remove(1);
+    state.slots.forEach(function (slot, i) {
+      var count = state.tickets.filter(function (t) {
+        return t.slotIndex === i && t.status !== 'atendido';
+      }).length;
+      var opt = document.createElement('option');
+      opt.value = String(i);
+      if (!slot.enabled) {
+        opt.textContent = slot.label + ' — no disponible';
+        opt.disabled = true;
+      } else {
+        var full = count >= SLOT_CAPACITY;
+        opt.textContent = slot.label + (full ? ' — completo' : ' — ' + count + '/' + SLOT_CAPACITY);
+        opt.disabled = full;
+      }
+      select.appendChild(opt);
+    });
+  }
+
   function renderCliente() {
     var pre = document.getElementById('cliente-pretake');
     var ticketPanel = document.getElementById('cliente-ticket');
+    var formFields = document.getElementById('cliente-form-fields');
+    var closedMsg = document.getElementById('cliente-cerrado-msg');
     var myTicket = state.tickets.find(function (t) { return t.id === state.myTicketId; });
 
     if (!myTicket) {
       pre.classList.remove('hidden');
       ticketPanel.classList.add('hidden');
+      if (state.negocioAbierto) {
+        formFields.classList.remove('hidden');
+        closedMsg.classList.add('hidden');
+        renderSlotOptions();
+      } else {
+        formFields.classList.add('hidden');
+        closedMsg.classList.remove('hidden');
+      }
     } else {
       pre.classList.add('hidden');
       ticketPanel.classList.remove('hidden');
@@ -611,6 +747,7 @@
           btn.textContent = 'Marcar atendido';
           btn.addEventListener('click', function () {
             t.status = 'atendido';
+            logEvent('Turno #' + t.number + ' atendido.');
             renderAll();
           });
           row.appendChild(btn);
@@ -645,12 +782,68 @@
     }
   }
 
+  function renderSlotsManager() {
+    var el = document.getElementById('slots-manager');
+    el.innerHTML = '';
+    state.slots.forEach(function (slot, i) {
+      var row = document.createElement('div');
+      row.className = 'slot-row';
+      row.innerHTML =
+        '<span class="slot-row-label">' + slot.label + '</span>' +
+        '<span class="badge ' + (slot.enabled ? 'activa' : 'inactiva') + '">' + (slot.enabled ? 'Activa' : 'Inactiva') + '</span>';
+      var btn = document.createElement('button');
+      btn.className = 'btn-ghost small';
+      btn.type = 'button';
+      btn.textContent = slot.enabled ? 'Deshabilitar' : 'Habilitar';
+      btn.addEventListener('click', function () {
+        slot.enabled = !slot.enabled;
+        logEvent('Franja ' + slot.label + (slot.enabled ? ' habilitada.' : ' deshabilitada.'));
+        renderAll();
+      });
+      row.appendChild(btn);
+      el.appendChild(row);
+    });
+  }
+
+  function renderHistorial() {
+    var el = document.getElementById('historial-list');
+    el.innerHTML = '';
+    if (state.history.length === 0) {
+      el.innerHTML = '<div class="empty-state">Sin actividad todavía.</div>';
+      return;
+    }
+    state.history.forEach(function (entry) {
+      var row = document.createElement('div');
+      row.className = 'historial-item';
+      row.innerHTML = '<span class="time">' + entry.time + '</span><span>' + escapeHtml(entry.text) + '</span>';
+      el.appendChild(row);
+    });
+  }
+
+  function renderNegocioStatus() {
+    var text = document.getElementById('negocio-status-text');
+    var btn = document.getElementById('btn-toggle-negocio');
+    if (state.negocioAbierto) {
+      text.textContent = 'Negocio abierto — los clientes pueden sacar turnos.';
+      btn.textContent = 'Cerrar negocio';
+    } else {
+      text.textContent = 'Negocio cerrado — los clientes no pueden sacar turnos nuevos.';
+      btn.textContent = 'Abrir negocio';
+    }
+  }
+
   function renderAll() {
     renderCliente();
     renderNegocioAuth();
-    if (state.negocioAuth) renderNegocio();
+    if (state.negocioAuth) {
+      renderNegocio();
+      renderNegocioStatus();
+      renderSlotsManager();
+      renderHistorial();
+    }
   }
 
+  // ---- Events ----
   document.querySelectorAll('.switch-btn').forEach(function (btn) {
     btn.addEventListener('click', function () {
       document.querySelectorAll('.switch-btn').forEach(function (b) { b.classList.remove('active'); });
@@ -664,14 +857,20 @@
 
   document.getElementById('btn-tomar-turno').addEventListener('click', function () {
     var name = document.getElementById('input-nombre').value;
-    addTicket(name, undefined, true);
+    var slotValue = document.getElementById('select-horario').value;
+    var forcedSlot = slotValue === 'auto' ? undefined : parseInt(slotValue, 10);
+    var ticket = addTicket(name, forcedSlot, true);
+    logEvent('Turno #' + ticket.number + ' asignado a ' + ticket.name + ' (' + state.slots[ticket.slotIndex].label + ').');
     renderAll();
   });
 
   document.getElementById('btn-cancelar').addEventListener('click', function () {
+    var myTicket = state.tickets.find(function (t) { return t.id === state.myTicketId; });
+    if (myTicket) logEvent('Turno #' + myTicket.number + ' cancelado por el cliente.');
     state.tickets = state.tickets.filter(function (t) { return t.id !== state.myTicketId; });
     state.myTicketId = null;
     document.getElementById('input-nombre').value = '';
+    document.getElementById('select-horario').value = 'auto';
     renderAll();
   });
 
@@ -683,6 +882,7 @@
       state.negocioAuth = true;
       error.classList.add('hidden');
       document.getElementById('input-admin-pass').value = '';
+      logEvent('Sesión iniciada en el panel de negocio.');
       renderAll();
     } else {
       error.classList.remove('hidden');
@@ -690,9 +890,16 @@
   });
 
   document.getElementById('btn-logout-negocio').addEventListener('click', function () {
+    logEvent('Sesión cerrada.');
     state.negocioAuth = false;
     document.getElementById('input-admin-user').value = '';
     document.getElementById('input-admin-pass').value = '';
+    renderAll();
+  });
+
+  document.getElementById('btn-toggle-negocio').addEventListener('click', function () {
+    state.negocioAbierto = !state.negocioAbierto;
+    logEvent('Negocio ' + (state.negocioAbierto ? 'abierto.' : 'cerrado.'));
     renderAll();
   });
 
@@ -700,19 +907,22 @@
     var ordered = activeOrdered().filter(function (t) { return t.status === 'esperando'; });
     if (ordered.length > 0) {
       ordered[0].status = 'llamado';
+      logEvent('Turno #' + ordered[0].number + ' llamado.');
       renderAll();
     }
   });
 
   document.getElementById('btn-simular').addEventListener('click', function () {
     var names = ['Cliente anónimo', 'Mateo', 'Isabella', 'Daniel', 'Laura', 'Santiago'];
-    addTicket(names[Math.floor(Math.random() * names.length)], undefined, false);
+    var ticket = addTicket(names[Math.floor(Math.random() * names.length)], undefined, false);
+    logEvent('Turno #' + ticket.number + ' simulado (' + state.slots[ticket.slotIndex].label + ').');
     renderAll();
   });
 
   document.getElementById('btn-reset').addEventListener('click', function () {
     seed();
     document.getElementById('input-nombre').value = '';
+    document.getElementById('select-horario').value = 'auto';
     renderAll();
   });
 
