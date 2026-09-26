@@ -9,26 +9,26 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0E2027;
-    --panel: #163640;
-    --panel-2: #1C424D;
-    --text: #EAF3F1;
-    --muted: #85A3AB;
-    --line: rgba(234,243,241,0.10);
-    --amber: #F2A93B;
-    --amber-soft: rgba(242,169,59,0.16);
-    --teal: #57C4B7;
-    --teal-soft: rgba(87,196,183,0.16);
-    --grey: #4C6169;
-    --grey-soft: rgba(76,97,105,0.25);
+    --bg: #F4F6F8;
+    --panel: #FFFFFF;
+    --panel-2: #EAEFF3;
+    --text: #202A32;
+    --muted: #64748B;
+    --line: rgba(32,42,50,0.10);
+    --amber: #DB7F1E;
+    --amber-soft: rgba(219,127,30,0.12);
+    --teal: #1E8F82;
+    --teal-soft: rgba(30,143,130,0.12);
+    --grey: #94A3AE;
+    --grey-soft: rgba(148,163,174,0.18);
     --radius: 12px;
     --font-display: 'Space Grotesk', sans-serif;
     --font-body: 'Inter', sans-serif;
   }
   @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) { color-scheme: dark; }
+    :root:not([data-theme="light"]) { color-scheme: light; }
   }
-  :root[data-theme="dark"] { color-scheme: dark; }
+  :root[data-theme="dark"] { color-scheme: light; }
 
   * { box-sizing: border-box; }
   html { scroll-padding-top: env(safe-area-inset-top, 0px); }
@@ -107,6 +107,7 @@
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: clamp(18px, 3vw, 28px);
+    box-shadow: 0 1px 2px rgba(32,42,50,0.04);
   }
 
   h1 {
@@ -125,7 +126,7 @@
   .muted-text { color: var(--muted); margin: 0 0 18px; font-size: 0.92rem; }
 
   label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 20px; }
-  input[type="text"] {
+  input[type="text"], input[type="password"] {
     display: block;
     width: 100%;
     margin-top: 8px;
@@ -136,7 +137,24 @@
     color: var(--text);
     font-size: 0.95rem;
   }
-  input[type="text"]:focus { outline: 2px solid var(--teal); outline-offset: 1px; }
+  input[type="text"]:focus, input[type="password"]:focus { outline: 2px solid var(--teal); outline-offset: 1px; }
+
+  .login-error {
+    background: rgba(219,68,55,0.10);
+    border: 1px solid #D94436;
+    color: #B5392D;
+    padding: 11px 14px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    margin-bottom: 16px;
+  }
+
+  .negocio-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
 
   .btn-primary {
     background: var(--amber);
@@ -364,25 +382,43 @@
     </section>
 
     <section id="view-negocio" class="view">
-      <div class="panel stats-panel">
-        <div class="stat"><span class="stat-value" id="stat-espera">0</span><span class="stat-label">En espera</span></div>
-        <div class="stat"><span class="stat-value" id="stat-llamados">0</span><span class="stat-label">Llamados</span></div>
-        <div class="stat"><span class="stat-value" id="stat-atendidos">0</span><span class="stat-label">Atendidos</span></div>
-        <button id="btn-llamar" class="btn-primary" type="button">Llamar siguiente</button>
+      <div id="negocio-login" class="panel">
+        <h1>Acceso del negocio</h1>
+        <p class="lead">Ingresa con la cuenta del negocio para gestionar los turnos.</p>
+        <label>Usuario
+          <input type="text" id="input-admin-user" placeholder="admin" autocomplete="off">
+        </label>
+        <label>Contraseña
+          <input type="password" id="input-admin-pass" placeholder="••••••">
+        </label>
+        <div id="login-error" class="login-error hidden">Usuario o contraseña incorrectos.</div>
+        <button id="btn-login-negocio" class="btn-primary" type="button">Ingresar</button>
       </div>
 
-      <div class="panel">
-        <h2>Distribución de llegadas</h2>
-        <p class="muted-text">Turnos asignados por franja horaria.</p>
-        <div id="timeline-negocio" class="timeline"></div>
-      </div>
-
-      <div class="panel">
-        <div class="list-header">
-          <h2>Turnos</h2>
-          <button id="btn-simular" class="btn-ghost small" type="button">Simular llegada</button>
+      <div id="negocio-dashboard" class="hidden" style="display: contents;">
+        <div class="panel stats-panel">
+          <div class="stat"><span class="stat-value" id="stat-espera">0</span><span class="stat-label">En espera</span></div>
+          <div class="stat"><span class="stat-value" id="stat-llamados">0</span><span class="stat-label">Llamados</span></div>
+          <div class="stat"><span class="stat-value" id="stat-atendidos">0</span><span class="stat-label">Atendidos</span></div>
+          <button id="btn-llamar" class="btn-primary" type="button">Llamar siguiente</button>
         </div>
-        <div id="tickets-list" class="tickets-list"></div>
+
+        <div class="panel">
+          <h2>Distribución de llegadas</h2>
+          <p class="muted-text">Turnos asignados por franja horaria.</p>
+          <div id="timeline-negocio" class="timeline"></div>
+        </div>
+
+        <div class="panel">
+          <div class="list-header">
+            <h2>Turnos</h2>
+            <div style="display:flex; gap:8px;">
+              <button id="btn-simular" class="btn-ghost small" type="button">Simular llegada</button>
+              <button id="btn-logout-negocio" class="btn-ghost small" type="button">Cerrar sesión</button>
+            </div>
+          </div>
+          <div id="tickets-list" class="tickets-list"></div>
+        </div>
       </div>
     </section>
   </main>
@@ -421,7 +457,8 @@
     tickets: [],
     nextNumber: 41,
     nextId: 1,
-    myTicketId: null
+    myTicketId: null,
+    negocioAuth: false
   };
 
   function seed() {
@@ -429,6 +466,7 @@
     state.nextNumber = 41;
     state.nextId = 1;
     state.myTicketId = null;
+    state.negocioAuth = false;
     var seedNames = ['Camila', 'Jorge', 'Valentina', 'Anónimo', 'Sara'];
     var seedSlots = [0, 0, 1, 1, 2];
     for (var i = 0; i < seedNames.length; i++) {
@@ -595,9 +633,22 @@
     return div.innerHTML;
   }
 
+  function renderNegocioAuth() {
+    var login = document.getElementById('negocio-login');
+    var dashboard = document.getElementById('negocio-dashboard');
+    if (state.negocioAuth) {
+      login.classList.add('hidden');
+      dashboard.classList.remove('hidden');
+    } else {
+      login.classList.remove('hidden');
+      dashboard.classList.add('hidden');
+    }
+  }
+
   function renderAll() {
     renderCliente();
-    renderNegocio();
+    renderNegocioAuth();
+    if (state.negocioAuth) renderNegocio();
   }
 
   document.querySelectorAll('.switch-btn').forEach(function (btn) {
@@ -621,6 +672,27 @@
     state.tickets = state.tickets.filter(function (t) { return t.id !== state.myTicketId; });
     state.myTicketId = null;
     document.getElementById('input-nombre').value = '';
+    renderAll();
+  });
+
+  document.getElementById('btn-login-negocio').addEventListener('click', function () {
+    var user = document.getElementById('input-admin-user').value.trim();
+    var pass = document.getElementById('input-admin-pass').value;
+    var error = document.getElementById('login-error');
+    if (user === 'admin' && pass === 'admin') {
+      state.negocioAuth = true;
+      error.classList.add('hidden');
+      document.getElementById('input-admin-pass').value = '';
+      renderAll();
+    } else {
+      error.classList.remove('hidden');
+    }
+  });
+
+  document.getElementById('btn-logout-negocio').addEventListener('click', function () {
+    state.negocioAuth = false;
+    document.getElementById('input-admin-user').value = '';
+    document.getElementById('input-admin-pass').value = '';
     renderAll();
   });
 
